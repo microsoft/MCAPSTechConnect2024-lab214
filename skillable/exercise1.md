@@ -1,0 +1,1 @@
+# Exercise 1: Create a basic agent using the Microsoft 365 Agents SDK
