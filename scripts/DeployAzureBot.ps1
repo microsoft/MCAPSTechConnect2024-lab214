@@ -2,10 +2,16 @@ $ResourceGroup = 'ResourceGroup1'
 $BotTemplateFile = 'deployBotService.bicep'
 $AzureOpenAITemplateFile = 'deployAzureOpenAI.bicep'
 
+Write-Host("================================================")
+Write-Host("Logging in to Azure...")
+Write-Host("================================================")
 # Login to Azure
 az login
 
 # Deploy the Azure Bot Service
+Write-Host("================================================")
+Write-Host("Deploying Azure Bot Service...")
+Write-Host("================================================")
 $deploymentResult = az deployment group create `
     --resource-group $ResourceGroup `
     --template-file $BotTemplateFile `
@@ -19,6 +25,10 @@ $botName = $deploymentResult.properties.outputs.botApp.value
 # Generate a new client secret for the returned App ID
 $deploymentSecretResult = az ad app credential reset --id $appId --output json | ConvertFrom-Json
 $secret = $deploymentSecretResult.password
+
+Write-Host("================================================")
+Write-Host("Deploying Azure OpenAI...")
+Write-Host("================================================")
 
 # Deploy the Azure OpenAI service
 $deploymentOpenAIResult = az deployment group create `

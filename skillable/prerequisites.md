@@ -24,7 +24,7 @@ To run the script, perform the following steps:
 2. Right click on the **DeployAzureBot.ps1** file and click **Properties**.
 3. At the bottom of the window, in the **Security** section, check the **Unblock** checkbox and click **OK**.
 
-    ![Unlock the script before executing it](media/pre-unblock-script.png)
+    ![Unlock the script before executing it](media/prereq/1.unblock-script.png)
 
 4. Right click on an empty space in File Explorer and choose **Open in Terminal**.
 5. Type the following command to enable the execution of the script:
@@ -39,14 +39,18 @@ To run the script, perform the following steps:
     .\DeployAzureBot.ps1
     ```
 
-7. The script will ask you to log in to your Azure subscription. If you're doing this lab at MCAPS Tech Connect, use the following credentials when asked:
+7. The script will ask you to log in to your Azure subscription. If you're doing this lab at MCAPS Tech Connect, choose **Work or school account**, then use the following credentials when asked:
 
     - Username: +++@lab.CloudPortalCredential(User1).Username+++
     - Password: +++@lab.CloudPortalCredential(User1).Password+++
+  - 
+8. You will be asked to choose a subscription. Type `1` to select the only available one and press Enter.
 
-8. Once the script has completed the execution, you will see a report like the following one:
+    ![The Azure subscription to select](media/prereq/2.pre-select-tenant.png)
 
-    ![The output of the PowerShell script](media/pre-script-output.png)
+9.  Once the script has completed the execution, you will see a report like the following one:
 
-9. Open Notepad and copy all the values from the output. You will need them later in the lab.
+    ![The output of the PowerShell script](media/prereq/3.script-output.png)
+
+10. Open Notepad and copy all the values from the output. You will need them later in the lab.
 
