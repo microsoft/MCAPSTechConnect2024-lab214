@@ -10,8 +10,12 @@ To perform this lab, you will need the following requirements:
 If you're doing this lab at MCAPS Tech Connect, the environment is already set up for you. 
 However, you will need to download the lab files from the GitHub repository first and then provision the required resources on your Azure subscription. Let's start with the first task:
 
-1. Open the browser and navigate [to the following URL](https://github.com/microsoft/MCAPSTechConnect2024-lab214/archive/refs/heads/main.zip)
-2. Download the ZIP file to your computer and extract in the *C:\src* folder of the computer.
+1. Open File Explorer
+2. Double click on the C:\ drive.
+3. Right click on an empty space in the File Explorer window and choose **New** > **Folder**.
+4. Name it *src*.
+5. Open the browser and type in the address bar the the following URL: +++https://github.com/microsoft/MCAPSTechConnect2024-lab214/archive/refs/heads/main.zip+++
+6. Download the ZIP file to your computer and extract in the *C:\src* folder you have just created.
 
 The next step is to run a PowerShell script, which is going to deploy on your Azure subscription the two resources which are needed to run the lab:
 
@@ -20,20 +24,20 @@ The next step is to run a PowerShell script, which is going to deploy on your Az
 
 To run the script, perform the following steps:
 
-1. Double click on the **scripts** folder in the extracted folder.
+1. Open the folder *C:\src\MCAPSTechConnect2024-lab214-main\scripts*.
 2. Right click on the **DeployAzureBot.ps1** file and click **Properties**.
 3. At the bottom of the window, in the **Security** section, check the **Unblock** checkbox and click **OK**.
 
     ![Unlock the script before executing it](media/prereq/1.unblock-script.png)
 
 4. Right click on an empty space in File Explorer and choose **Open in Terminal**.
-5. Type the following command to enable the execution of the script:
+5. Type the following command and press Enter to enable the execution of the script:
 
     ```powershell
     Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope Process
     ```
 
-6. Run the script by typing the following command:
+6. Run the script by typing the following command and by pressing Enter:
 
     ```powershell
     .\DeployAzureBot.ps1
@@ -43,14 +47,19 @@ To run the script, perform the following steps:
 
     - Username: +++@lab.CloudPortalCredential(User1).Username+++
     - Password: +++@lab.CloudPortalCredential(User1).Password+++
-  - 
-8. You will be asked to choose a subscription. Type `1` to select the only available one and press Enter.
+  
 
-    ![The Azure subscription to select](media/prereq/2.pre-select-tenant.png)
+8. Windows will ask you if you want to stay signed in all your apps. Click on the **No, sign in to this app only** link highlighted in the image below:
 
-9.  Once the script has completed the execution, you will see a report like the following one:
+    ![Choose to sign in to this app only when asked](media/prereq/2.sign-app-only.png)
 
-    ![The output of the PowerShell script](media/prereq/3.script-output.png)
+9. You will be asked to choose a subscription. Type `1` to select the only available one and press Enter.
 
-10. Open Notepad and copy all the values from the output. You will need them later in the lab.
+    ![The Azure subscription to select](media/prereq/3.pre-select-tenant.png)
+
+10. The script will take a few minutes to complete. Once the execution is completed, you will see a report like the following one:
+
+    ![The output of the PowerShell script](media/prereq/4.script-output.png)
+
+11. Keep the terminal open. You will need these credentials later in the lab. In case you close the window by mistake, a backup copy of the credentials has been saved on your desktop in a text file named *Credentials.txt*.
 

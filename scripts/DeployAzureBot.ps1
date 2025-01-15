@@ -49,3 +49,12 @@ Write-Host ("Azure OpenAI Endpoint: $azureOpenAIEndpoint")
 Write-Host ("Azure OpenAI ApiKey: $azureOpenAIApiKey")
 Write-Host ("Azure OpenAI deployment name: gpt-4o-mini")
 Write-Host("================================================")
+
+$logContent = @"
+App Id: $appId
+Tenant Id: $tenantId
+Secret: $secret
+Azure OpenAI Endpoint: $azureOpenAIEndpoint
+Azure OpenAI ApiKey: $azureOpenAIApiKey
+"@
+Set-Content -Path "$Env:USERPROFILE\Desktop\Credentials.txt" -Value $logContent
