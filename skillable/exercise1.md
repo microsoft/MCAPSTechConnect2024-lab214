@@ -123,19 +123,17 @@ The implementation is the same we have seen for the `OnMessageActivityAsync()` m
 
 # Task 3: Test the agent with the Bot Framework Emulator
 As the first step, you must run the agent. As such, press F5 in Visual Studio to start the project.
-The first time you will run the project, you will be asked to trust the ASP.NET Core SSL certificate. Follow these steps:
+The first time you will run the project, you will be asked to trust the IIS Express SSL certificate. Follow these steps:
 
 1. Click on **Yes** to trust the certificate in the following pop-up:
 
-    ![Make sure to trust the ASP.NET Core SSL certificate](media/exercise1/1a-trust-certificate.png)
+    ![Make sure to trust the IIS Express SSL certificate](media/exercise1/1a-trust-certificate.png)![alt text](image.png)
 2.  You will get a security warning, asking you if you want to install this certificate. Click on **Yes**.
 
-    ![The security warning when you try to install the ASP.NET Core SSL certificate](media/exercise1/1b-security-warning.png)
-
-3. Then you must repeat the process for the IIS Express SSL certificate. Repeat steps 1 and 2.
+    ![The security warning when you try to install the IIS Express SSL certificate](media/exercise1/1b-security-warning.png)
 
 
- Two things will happen:
+After you have trusted the certificate, two things will happen:
 
 1. A terminal window will open, showing the logs of the Web API project.
 2. Microsoft Edge will open directly on the Web API URL, which is `https://localhost:56025`. However, being an API, you won't see a traditional web page, just the message **Microsoft Copilot SDK Sample**.
@@ -156,12 +154,13 @@ If you're doing this lab at MCAPS Tech Connect, the Bot Framework Emulator is al
     http://localhost:56026/api/messages
     ```
 
-    [!Alert] Make sure to use the HTTP URL of the local Web API and not the HTTPS one
+    [!Alert](Make sure to use the HTTP URL of the local Web API and not the HTTPS one)
 
 
     ![Open an agent in the Bot Framework Emulator](media/exercise1/2.open-bot.png)
 
-5. The Bot Framework Emulator will open a live chat with your agent. In a few seconds, you should see the following message:
+5. Click **Connect**.
+6. The Bot Framework Emulator will open a live chat with your agent. In a few seconds, you should see the following message:
 
     ```
     Hello and Welcome!
@@ -169,48 +168,49 @@ If you're doing this lab at MCAPS Tech Connect, the Bot Framework Emulator is al
 
     This is the welcome message we implemented in the `OnMembersAddedAsync()` method.
 
-6. Type a message in the chat and press Enter. You should see the same message you typed, prefixed by `Echo:`.
+7. Type a message in the chat and press Enter. You should see the same message you typed, prefixed by `Echo:`.
 
     ![The Echo Agent responding to the user](media/exercise1/3.echo-agent.message.png)
 
-[!Knowledge] The Bot Framework Emulator is a powerful tool that allows you to test and debug your agent. For example, by clicking on the various messages exchanged between the user and the agent, you have the option to see the JSON payload that is sent to the REST APIs. We won't dive deep into these option in these lab, but it's good to know that they are available.
+[!Knowledge](The Bot Framework Emulator is a powerful tool that allows you to test and debug your agent. For example, by clicking on the various messages exchanged between the user and the agent, you have the option to see the JSON payload that is sent to the REST APIs. We won't dive deep into these option in these lab, but it's good to know that they are available).
 
 # Task 4: Deploy the agent to a real channel
-Let's take the agent to a more realistic scenario and let's publishing it on a real channel, like a web application. To do that, we can't rely on the local Web API we're using now, but we need to leverage the Azure Bot Service. It's a service that acts as a bridge between your agent and the various channels where you want to deploy it, taking care of tasks like authentication, message dispatching, etc.
+Let's test the agent in a more realistic scenario by publishing it on a real channel, like a web application. To do that, we can't rely on the local Web API we're using now, but we need to leverage the Azure Bot Service. It's a service that acts as a bridge between your agent and the various channels where you want to deploy it, taking care of tasks like authentication, message dispatching, etc.
 
 The Azure Bot Service runs in the cloud so, in a production scenario, you would need to publish your agent on the web before using it, using one of the many available service like Azure App Service, Azure Functions, etc. However, for the sake of this lab, we're going to keep the agent local and we're going to use a Dev Tunnel to connect it to the Azure Bot Service.
 
-[!Knowledge] Dev Tunnel is a technology included in Visual Studio that allows you to expose a local service to the internet using a public URL, allowing a cloud application like the Azure Bot Service to communicate with it without needing to deploy it.
+[!Knowledge](Dev Tunnel is a technology included in Visual Studio that allows you to expose a local service to the internet using a public URL, allowing a cloud application like the Azure Bot Service to communicate with it without needing to deploy it.)
 
 As the first step, let's create the Dev Tunnel:
 
-1. In Visual Studio, click on the small arrow icon near the button which starts the debugging experience. You will see in the list the item **Dev Tunnels**, with the suffix **(No active tunnel)**.
+1. If the debugging is still running from the previous task, stop it.
+2. In Visual Studio, click on the small arrow icon near the button which starts the debugging experience. You will see in the list the item **Dev Tunnels**, with the suffix **(No active tunnel)**.
 
     ![The option to set up a Dev Tunnel in Visual Studio](media/exercise1/4.devtunnels-list.png)
 
-2. Expand the option and choose **Create a Tunnel**. You will see the following window:
+3. Expand the option and choose **Create a Tunnel**. You will see the following window:
 
     ![The window to create a new Dev Tunnel](media/exercise1/5.new-dev-tunnel.png)
 
-3. To create a Dev Tunnel you must be logged in with a Microsoft Account (work, school or personal) or with a GitHub account. Click on the **Account** dropdown and pick the option that works best for you: it can be your GitHub account, your personal Microsoft account or your work Microsoft account. All of these are valid options.
+4. To create a Dev Tunnel you must be logged in with a Microsoft Account (work, school or personal) or with a GitHub account. Click on the **Account** dropdown and pick the option that works best for you: it can be your GitHub account, your personal Microsoft account or your work Microsoft account. All of these are valid options.
 
-4. After you have logged in, make sure to set the following options:
+5. After you have logged in, make sure to set the following options:
 
-    - **Name**: this is a free text, choose something meaningful like +++MCAPS-M365AgentsSDK+++.
+    - **Name**: this is a free text, choose something meaningful like +++ MCAPS-M365AgentsSDK +++.
     - **Tunnel Type**: choose **Temporary**.
     - **Access**: choose **Public**.
 
-5. Click **Ok**.
-6. Now click again the small arrow icon near the button to start the debugging experience and make sure the, in the dropdown, you can see the name of the new Dev Tunnel you just created: 
+6. Click **Ok**.
+7. Now click again the small arrow icon near the button to start the debugging experience and make sure that, in the dropdown, you can see the name of the new Dev Tunnel you just created: 
 
     ![The selected Dev Tunnel](media/exercise1/6.select-dev-tunnel.png)
 
-7. Press F5 to start the debugging experience. Visual Studio will start the Web API project like in Task 3 but, this time, you'll see that the URL that will be opened up in the browser will be a real public URL. Additionally, you will see the following page:
+8. Press F5 to start the debugging experience. Visual Studio will start the Web API project like in Task 3 but, this time, you'll see that the URL that will be opened up in the browser will be a real public URL. Additionally, you will see the following page:
 
     ![The Dev Tunnel up & running](media/exercise1/7.dev-tunnel-url.png)
 
-8. Click on **Continue** in the page. You should see the familiar **Microsoft Copilot SDK Sample** message.
-9. The agent is now up & running, but exposed through the public URL that was generated by the Dev Tunnel and that you can see in the address bar. Make sure to take note of the URL.
+9.  Click on **Continue** in the page. You should see the familiar **Microsoft Copilot SDK Sample** message.
+10. The agent is now up & running, but exposed through the public URL that was generated by the Dev Tunnel and that you can see in the address bar. Make sure to take note of the URL.
 
 The next step is to configure the Azure Bot Service to use this URL, so that it knows where to dispatch the communications with the agent. We don't need to manually create the Azure Bot Service, since the script we have used in the **Prerequisites** section has already done it for us. Follow these steps:
 
@@ -229,10 +229,13 @@ The next step is to configure the Azure Bot Service to use this URL, so that it 
     ![The resource group in Azure with the required services for the lab](media/exercise1/8.resource-group.png)
 
 8. Click on the one with **Bot Channel Registration** as type.
-9. In the left menu, expand the **Setting** section and click on **Configuration**.
+9. In the left menu, expand the **Settings** section and click on **Configuration**.
 10. Under the **Messaging endpoint** field, copy and paste the Dev Tunnel URL you have previously noted. Make sure to append `/api/messages` at the end of the URL. For example, if the Dev Tunnel URL is `https://pm5j7rdn-56025.use2.devtunnels.ms`, the final URL you must add in the field will be `https://pm5j7rdn-56025.use2.devtunnels.ms/api/messages`.
     
     ![The Azure Bot Service configuration](media/exercise1/9.messaging-endpoint.png)
+
+11. Click on **Apply** at the bottom of the page.
+
 
 The Azure Bot Service communication is authenticated through a dedicated app registration on Microsoft Entra, which was automatically created as well by the script in the **Prerequisites** section. This means, however, that our agent, in order to properly work when it's used with the Azure Bot Service, needs to authenticate itself with the app registration. To do this, we need to make a few changes in our project in Visual Studio. The project already contains a file called `AspNetExtensions.cs`, which uses the ASP.NET Authentication library to manage the authentication with Microsoft Entra. However, it's currently disabled, so we need to enable it.
 
@@ -301,10 +304,13 @@ Before moving on to the next step, make sure to stop and relaunch the debugging 
 Now that both the local agent and the Azure Bot Service are properly configured, we can test it using one of the available channels supported by the Azure Bot Service. In the interest of time, we're going to use the simplest one: the Web Chat channel.
 
 1. Go back to the Azure portal.
-2. Make sure that the agent is properly running on your local machine, through the Visual Studio debugging experience.
+2. Launch the agent in Visual Studio by pressing F5.
 3. In the Azure Bot Service resource, click on the **Test in Web Chat** button under the **Settings** section.
 4. If you did everything right, you should see the agent behaving like when you tested it in the Bot Framework Emulator:
    - You will see the welcome message **Hello and Welcome!**.
    - Whenever you type a message, you will see the same message returned by the agent, prefixed by `Echo:`.
    
     ![Testing the agent in the Web Chat](media/exercise1/10-web-chat.png)
+
+Congratulations! You have published your first agent to the web channel!
+In the next exercise, you're going to empower your agent with Generative AI capabilities thanks to the LLMs provided by Azure OpenAI.
