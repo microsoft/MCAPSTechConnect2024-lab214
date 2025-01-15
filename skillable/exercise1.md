@@ -2,7 +2,7 @@
 
 In this exercise, you're going to implement a basic agent using the Microsoft 365 Agents SDK. The agent will be able to receive messages from a user and respond with the same message back. Yes, we're talking about an Echo agent :-) 
 
-In this exercise, we won't use any Generative AI capability. We will focus on the basic setup of the agent, how you can manage response and how, thanks to the Microsoft 365 Agents SDK and the Azure Bot Service, you can use the same agent in multiple channels.
+For the moment, we won't use any Generative AI capability. We will focus on the basic setup of the agent, how you can manage response and how, thanks to the Microsoft 365 Agents SDK and the Azure Bot Service, you can use the same agent in multiple channels.
 
 ## Task 1: Guided tour of the starting project
 In this task, we're going to create a new Echo agent using the Microsoft 365 Agents SDK. You won't have to start from scratch, since the lab provides a starting point for you. Let's open it!
@@ -10,10 +10,11 @@ In this task, we're going to create a new Echo agent using the Microsoft 365 Age
 1. Open File Explorer in Windows 11
 2. Locate the folder `C:\src\MCAPSTechConnect2024-lab214-main\lab\exercise1\1.start`
 3. Double click on the `EchoBot.sln` file to open the solution in Visual Studio 2022.
+4. Once Visual Studio starts, you will be asked if you want to trust it since it was downloaded from the web. Click on **Trust and Continue**.
 
 If you take a quick look at the project and you have some experience with web development in ASP.NET, you will realize that this is a standard Web API project:
 
-1. In the `Program.cs` file, we have the initialization of the Web API project, including the controllers which manage the various API endpoints.
+1. In the `Program.cs` file, we have the initialization of the Web API project, including the controllers which manage the various API endpoints. In we're running the project in development mode, the Web API root will expose a simple endpoint that returns the message **Microsoft Copilot SDK Sample**.
 
     ```csharp
     var builder = WebApplication.CreateBuilder(args);
@@ -38,7 +39,7 @@ If you take a quick look at the project and you have some experience with web de
     app.Run();
     ```
 
-2. Inside the **Controller** folder, we have a file called `BotController.cs`, which contains the API implementation. From the `Route` attribute that decorates the BotController class, we can see this code is mapped to the endpoint `/api/messages`.
+2. Inside the **Controller** folder, we have a file called `BotController.cs`, which contains the real API implementation. From the `Route` attribute that decorates the `BotController` class, we can see this code is mapped to the endpoint `/api/messages`.
 
     ```csharp
     [Route("api/messages")]
@@ -106,7 +107,7 @@ As parameter of the `MessageFactory.Text()` method, we're simply taking the mess
 
 In the second line of code, we're going to send the message back to the user. We can do this by using the `SendActivityAsync()` method of the `turnContext` object. This method takes in input the message we want to send and a `CancellationToken` object. We can reuse the one we receive in input from the method.
 
-Now let's implement the OnMembersAddedAsync() method as well. We're going to send a welcome message to the user when they start a conversation with our agent. Copy and paste the following code insie the `OnMembersAddedAsync()` method:
+Now let's implement the `OnMembersAddedAsync()` method as well. We're going to send a welcome message to the user when they start a conversation with our agent. Copy and paste the following code insie the `OnMembersAddedAsync()` method:
 
 ```csharp
 // When someone (or something) connects to the bot, a MembersAdded activity is received.
@@ -121,7 +122,20 @@ await turnContext.SendActivityAsync(message, cancellationToken);
 The implementation is the same we have seen for the `OnMessageActivityAsync()` method. We're going to create a new message using the `MessageFactory.Text()` method and send it back to the user using the `SendActivityAsync()` method. The only difference is that, in this case, we're going to send a fixed message to the user.
 
 # Task 3: Test the agent with the Bot Framework Emulator
-As the first step, you must run the agent. As such, press F5 in Visual Studio to start the project. Two things will happen:
+As the first step, you must run the agent. As such, press F5 in Visual Studio to start the project.
+The first time you will run the project, you will be asked to trust the ASP.NET Core SSL certificate. Follow these steps:
+
+1. Click on **Yes** to trust the certificate in the following pop-up:
+
+    ![Make sure to trust the ASP.NET Core SSL certificate](media/exercise1/1a-trust-certificate.png)
+2.  You will get a security warning, asking you if you want to install this certificate. Click on **Yes**.
+
+    ![The security warning when you try to install the ASP.NET Core SSL certificate](media/exercise1/1b-security-warning.png)
+
+3. Then you must repeat the process for the IIS Express SSL certificate. Repeat steps 1 and 2.
+
+
+ Two things will happen:
 
 1. A terminal window will open, showing the logs of the Web API project.
 2. Microsoft Edge will open directly on the Web API URL, which is `https://localhost:56025`. However, being an API, you won't see a traditional web page, just the message **Microsoft Copilot SDK Sample**.
@@ -182,7 +196,7 @@ As the first step, let's create the Dev Tunnel:
 
 4. After you have logged in, make sure to set the following options:
 
-    - **Name**: this is a free text, choose something meaningful like "MCAPS-M365AgentsSDK".
+    - **Name**: this is a free text, choose something meaningful like +++MCAPS-M365AgentsSDK+++.
     - **Tunnel Type**: choose **Temporary**.
     - **Access**: choose **Public**.
 
@@ -191,11 +205,11 @@ As the first step, let's create the Dev Tunnel:
 
     ![The selected Dev Tunnel](media/exercise1/6.select-dev-tunnel.png)
 
-7. Press F5 to start the debugging experience. Visual Studio will start the Web API project like in Task 3 but, this time, you'll see that the URL that will be opened up in the browser will be different and there will be a pop up in the page:
+7. Press F5 to start the debugging experience. Visual Studio will start the Web API project like in Task 3 but, this time, you'll see that the URL that will be opened up in the browser will be a real public URL. Additionally, you will see the following page:
 
     ![The Dev Tunnel up & running](media/exercise1/7.dev-tunnel-url.png)
 
-8. Click on **Continue** in the page.
+8. Click on **Continue** in the page. You should see the familiar **Microsoft Copilot SDK Sample** message.
 9. The agent is now up & running, but exposed through the public URL that was generated by the Dev Tunnel and that you can see in the address bar. Make sure to take note of the URL.
 
 The next step is to configure the Azure Bot Service to use this URL, so that it knows where to dispatch the communications with the agent. We don't need to manually create the Azure Bot Service, since the script we have used in the **Prerequisites** section has already done it for us. Follow these steps:
@@ -230,7 +244,7 @@ The Azure Bot Service communication is authenticated through a dedicated app reg
     ```
 3. Uncomment the line by removing the `//` at the beginning.
 
-The next step is to configure the authentication: we need to supply to the agent the credentials to authenticate to our app registration. We do this in the `appssettings.json` file. Do you remember the list of credentials we copied in the **Prerequisites** section? We're going to use them now.
+The next step is to configure the authentication: we need to supply to the agent the credentials to authenticate to our app registration. We do this in the `appssettings.json` file. Do you remember the list of credentials that was generated by the script a that we copied at the end of the **Prerequisites** section? We're going to use them now.
 
 1. In the `TokenValidation -> Audience` property, copy and paste the value of the `App Id` key from the credentials list.
 2. Look for the `Settings` section under `Connections -> BotServiceConnection` and make the following changes:
@@ -289,7 +303,7 @@ Now that both the local agent and the Azure Bot Service are properly configured,
 1. Go back to the Azure portal.
 2. Make sure that the agent is properly running on your local machine, through the Visual Studio debugging experience.
 3. In the Azure Bot Service resource, click on the **Test in Web Chat** button under the **Settings** section.
-4. If you did everything right, you should see the agent behaving like when you tested in the Bot Framework Emulator:
+4. If you did everything right, you should see the agent behaving like when you tested it in the Bot Framework Emulator:
    - You will see the welcome message **Hello and Welcome!**.
    - Whenever you type a message, you will see the same message returned by the agent, prefixed by `Echo:`.
    
