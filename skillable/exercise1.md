@@ -172,14 +172,14 @@ If you're doing this lab at MCAPS Tech Connect, the Bot Framework Emulator is al
 
     ![The Echo Agent responding to the user](media/exercise1/3.echo-agent.message.png)
 
-[!Knowledge](The Bot Framework Emulator is a powerful tool that allows you to test and debug your agent. For example, by clicking on the various messages exchanged between the user and the agent, you have the option to see the JSON payload that is sent to the REST APIs. We won't dive deep into these option in these lab, but it's good to know that they are available).
+> [!Knowledge] The Bot Framework Emulator is a powerful tool that allows you to test and debug your agent. For example, by clicking on the various messages exchanged between the user and the agent, you have the option to see the JSON payload that is sent to the REST APIs. We won't dive deep into these option in these lab, but it's good to know that they are available.
 
 # Task 4: Deploy the agent to a real channel
 Let's test the agent in a more realistic scenario by publishing it on a real channel, like a web application. To do that, we can't rely on the local Web API we're using now, but we need to leverage the Azure Bot Service. It's a service that acts as a bridge between your agent and the various channels where you want to deploy it, taking care of tasks like authentication, message dispatching, etc.
 
 The Azure Bot Service runs in the cloud so, in a production scenario, you would need to publish your agent on the web before using it, using one of the many available service like Azure App Service, Azure Functions, etc. However, for the sake of this lab, we're going to keep the agent local and we're going to use a Dev Tunnel to connect it to the Azure Bot Service.
 
-[!Knowledge](Dev Tunnel is a technology included in Visual Studio that allows you to expose a local service to the internet using a public URL, allowing a cloud application like the Azure Bot Service to communicate with it without needing to deploy it.)
+>[!Knowledge] Dev Tunnel is a technology included in Visual Studio that allows you to expose a local service to the internet using a public URL, allowing a cloud application like the Azure Bot Service to communicate with it without needing to deploy it.
 
 As the first step, let's create the Dev Tunnel:
 
@@ -236,7 +236,6 @@ The next step is to configure the Azure Bot Service to use this URL, so that it 
 
 11. Click on **Apply** at the bottom of the page.
 
-
 The Azure Bot Service communication is authenticated through a dedicated app registration on Microsoft Entra, which was automatically created as well by the script in the **Prerequisites** section. This means, however, that our agent, in order to properly work when it's used with the Azure Bot Service, needs to authenticate itself with the app registration. To do this, we need to make a few changes in our project in Visual Studio. The project already contains a file called `AspNetExtensions.cs`, which uses the ASP.NET Authentication library to manage the authentication with Microsoft Entra. However, it's currently disabled, so we need to enable it.
 
 1. Go back to Visual Studio and locate, inside Solution Explorer, the `SampleServiceCollectionExtensions.cs` file.
@@ -256,7 +255,7 @@ The next step is to configure the authentication: we need to supply to the agent
     - Under `ClientId`, copy and paste the value of the `App Id` key from the credentials list.
     - Under `ClientSecret`, copy and paste the value of the `Secret` key from the credentials list.
 
-    This is how your file should look like:
+    This is how your file should look like (the values are just placeholders, they will be different in your case):
 
     ```json
     {
