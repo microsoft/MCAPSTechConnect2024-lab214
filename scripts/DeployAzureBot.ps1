@@ -1,6 +1,7 @@
 $ResourceGroup = 'ResourceGroup1'
 $BotTemplateFile = 'deployBotService.bicep'
 $AzureOpenAITemplateFile = 'deployAzureOpenAI.bicep'
+$Location = 'eastus'
 
 Write-Host("================================================")
 Write-Host("Logging in to Azure...")
