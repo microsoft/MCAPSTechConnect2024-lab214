@@ -20,7 +20,7 @@ namespace Microsoft.Agents.Hosting.Setup
             where T : IBot
             where TImpl : class, T
         {
-            builder.Services.AddBotAspNetAuthentication(builder.Configuration);
+            //builder.Services.AddBotAspNetAuthentication(builder.Configuration);
 
             // Add Connections object to access configured token connections.
             builder.Services.AddSingleton<IConnections, ConfigurationConnections>();

@@ -1,8 +1,8 @@
 ﻿using Microsoft.SemanticKernel;
-using SingleAgent.Models;
+using TravelAgency.Models;
 using System.ComponentModel;
 
-namespace SingleAgent.Plugins
+namespace TravelAgency.Plugins
 {
     public class DestinationsPlugin
     {

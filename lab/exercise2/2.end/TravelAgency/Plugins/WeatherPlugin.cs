@@ -1,9 +1,9 @@
 ﻿using Microsoft.SemanticKernel;
-using SingleAgent.Models;
+using TravelAgency.Models;
 using System.ComponentModel;
 using System.Globalization;
 
-namespace SingleAgent.Plugins
+namespace TravelAgency.Plugins
 {
     public class WeatherPlugin
     {

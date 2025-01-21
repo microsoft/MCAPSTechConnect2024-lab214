@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace SingleAgent.Models
+namespace TravelAgency.Models
 {
     public class Weather
     {

@@ -40,6 +40,9 @@ Let's take a tour of the starting project. It's very similar to the Echo Agent w
     These are the information that are needed by Semantic Kernel to access to your Azure OpenAI instance. Since we're already here, let's fill them with the credentials that were returned by the script we launched in the **Prerequisites** section of this lab.
 
     >[!Note] If you can't find them, remember that a copy has been saved into the **Credentials.txt** file on the desktop
+    > [!Alert] Storing credentials in plain in a configuration file isn't a good practice. In a real-world scenario, you should use Azure Key Vault to store them securely or switch to [Azure Managed Identity](https://learn.microsoft.com/entra/identity/managed-identities-azure-resources/overview) to authenticate with the Azure OpenAI APIs. In the testing phase, you can use the [Secret Manager tool](https://learn.microsoft.com/aspnet/core/security/app-secrets?view=aspnetcore-9.0&tabs=windows#secret-manager) provided by Visual Studio to store them securely. 
+
+    ```json
 
 5. The third difference is in the `Program.cs` file, which initializes the Web API. Compared to the one we have seen in Exercise 1, there are two changes:
 
@@ -132,28 +135,59 @@ Let's create our agent now!
     - It invokes the agent by calling the `InvokeAsync` method of the `ChatCompletionAgent` object, passing the history so that the agent has the full context of the conversation. This method returns an asynchronous stream of `ChatMessageContent` objects, which represent the messages that the agent sends back to the user.
     - Return the complete response of the agent to the user.
 
-Now that we have implemented the agent, let's move to the `BasicBot` class and implement the logic to handle the incoming messages. 
-Open the `BasicBot.cs` file and replace the implementation of the `OnMessageActivityAsync()` method with the following code:
+Now that we have implemented the agent, we must register it in the dependency injection system of the application. Let's do this in the `Program.cs` file.
 
-```csharp
-protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
-{
-    var response = await _travelAgent.InvokeAgentAsync(turnContext.Activity.Text);
-    if (response == null)
+1. Double click on the `Program.cs` file in Solution Explorer.
+2. Add the following line of code in any place between the `WebApplication.CreateBuilder(args)` and the `builder.Build()` methods:
+
+    ```csharp
+    var builder = WebApplication.CreateBuilder(args);
+
+    // Add services to the container.
+    // code to register the various services and configuration
+    builder.Services.AddTransient<TravelAgent>();
+
+    var app = builder.Build();
+    ```
+
+Now that we have registered the agent class, we can add it as parameter of the `BasicBot` class constructor, so that it's automatically injected by the dependency injection system.
+
+1. Open the BasicBot.cs file in the Solution Explorer.
+2. Copy and paste the following code inside the `BasicBot` class:
+
+    ```csharp
+    private readonly TravelAgent _travelAgent;
+
+    public BasicBot(TravelAgent travelAgent)
     {
-        await turnContext.SendActivityAsync(MessageFactory.Text("Sorry, I couldn't get the travel suggestion at the moment."), cancellationToken);
-        return;
+        _travelAgent = travelAgent;
     }
+    ```
+3. Now we can implement the the logic to handle the incoming messages. Open the `BasicBot.cs` file and replace the implementation of the `OnMessageActivityAsync()` method with the following code:
 
-    var textResponse = MessageFactory.Text(response);
+    ```csharp
+    protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
+    {
+        var response = await _travelAgent.InvokeAgentAsync(turnContext.Activity.Text);
+        if (response == null)
+        {
+            await turnContext.SendActivityAsync(MessageFactory.Text("Sorry, I couldn't get the travel suggestion at the moment."), cancellationToken);
+            return;
+        }
 
-    await turnContext.SendActivityAsync(textResponse, cancellationToken);
-}
-```
+        var textResponse = MessageFactory.Text(response);
+
+        await turnContext.SendActivityAsync(textResponse, cancellationToken);
+    }
+    ```
 
 This code calls the `InvokeAgentAsync()` method of the `TravelAgent` object we have just defined, passing the user that the message has typed in the chat (stored in the `turnContext.Activity.Text` property). Then takes the response and wraps it into a `Text` activity, which is sent back to the user.
 
-Now it's time to test the agent. For the sake of simplicity, we will do the testing only using the Bot Framework Emulator, so we won't need to add in the `appsettings.json` file the credentials of our app registration on Microsoft Entra.
+Now it's time to test the agent. 
+
+> [!Note] For the sake of simplicity, we will do the testing only using the Bot Framework Emulator, so we won't need to configure the authentication with the Azure Bot Service. In case you want to test the agent with other channels like we did in Exercise 1, make sure to:
+> - Copy inside the `appsettings.json` file the credentials of the app registration on Microsoft Entra that the script has created in the **Prerequisites** section of this lab (app id, tenant id and secret).
+> - Uncomment the `builder.Services.AddBotAspNetAuthentication(builder.Configuration)` line in the `SampleServiceCollectionExtension.cs` file.
 
 1. Press F5 to launch the debugging in Visual Studio.
 2. Open the Start menu in Windows and locate the Bot Framework Emulator icon. Launch it.

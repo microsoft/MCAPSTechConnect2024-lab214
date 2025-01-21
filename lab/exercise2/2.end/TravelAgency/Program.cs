@@ -1,8 +1,8 @@
 using Microsoft.Agents.Protocols.Primitives;
 using Microsoft.SemanticKernel;
 using Microsoft.Agents.Hosting.Setup;
-using SingleAgent.Bots;
-using SingleAgent.Agents;
+using TravelAgency.Bots;
+using TravelAgency.Agents;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,4 +1,4 @@
-﻿namespace SingleAgent.Models
+﻿namespace TravelAgency.Models
 {
     public class Destination
     {
