@@ -1,12 +1,22 @@
 $ResourceGroup = 'ResourceGroup1'
 $BotTemplateFile = 'deployBotService.bicep'
 $AzureOpenAITemplateFile = 'deployAzureOpenAI.bicep'
+$Location = 'eastus'
 
 Write-Host("================================================")
 Write-Host("Logging in to Azure...")
 Write-Host("================================================")
 # Login to Azure
 az login
+
+# Create the Azure Resource Group
+Write-Host("================================================")
+Write-Host("Creating the Azure Resource Group...")
+Write-Host("================================================")
+$resourceGroupExists = az group exists --name $ResourceGroup
+if ($resourceGroupExists -eq $false) {
+    az group create --name $ResourceGroup --location $Location
+}
 
 # Deploy the Azure Bot Service
 Write-Host("================================================")

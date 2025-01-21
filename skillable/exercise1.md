@@ -127,7 +127,7 @@ The first time you will run the project, you will be asked to trust the IIS Expr
 
 1. Click on **Yes** to trust the certificate in the following pop-up:
 
-    ![Make sure to trust the IIS Express SSL certificate](media/exercise1/1a-trust-certificate.png)![alt text](image.png)
+    ![Make sure to trust the IIS Express SSL certificate](media/exercise1/1a-trust-certificate.png)
 2.  You will get a security warning, asking you if you want to install this certificate. Click on **Yes**.
 
     ![The security warning when you try to install the IIS Express SSL certificate](media/exercise1/1b-security-warning.png)
@@ -234,7 +234,7 @@ The next step is to configure the Azure Bot Service to use this URL, so that it 
     
     ![The Azure Bot Service configuration](media/exercise1/9.messaging-endpoint.png)
 
-11. Click on **Apply** at the bottom of the page.
+11. Click on **Apply** at the bottom of the page. (You may need to Clean up Application Insights API key field before **Apply** is able to be clicked) 
 
 The Azure Bot Service communication is authenticated through a dedicated app registration on Microsoft Entra, which was automatically created as well by the script in the **Prerequisites** section. This means, however, that our agent, in order to properly work when it's used with the Azure Bot Service, needs to authenticate itself with the app registration. To do this, we need to make a few changes in our project in Visual Studio. The project already contains a file called `AspNetExtensions.cs`, which uses the ASP.NET Authentication library to manage the authentication with Microsoft Entra. However, it's currently disabled, so we need to enable it.
 
