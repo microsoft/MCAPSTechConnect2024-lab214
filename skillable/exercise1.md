@@ -127,7 +127,7 @@ The first time you will run the project, you will be asked to trust the IIS Expr
 
 1. Click on **Yes** to trust the certificate in the following pop-up:
 
-    ![Make sure to trust the IIS Express SSL certificate](media/exercise1/1a-trust-certificate.png)![alt text](image.png)
+    ![Make sure to trust the IIS Express SSL certificate](media/exercise1/1a-trust-certificate.png)![alt text]
 2.  You will get a security warning, asking you if you want to install this certificate. Click on **Yes**.
 
     ![The security warning when you try to install the IIS Express SSL certificate](media/exercise1/1b-security-warning.png)
