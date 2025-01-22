@@ -14,7 +14,7 @@ However, you will need to download the lab files from the GitHub repository firs
 2. Double click on the C:\ drive.
 3. Right click on an empty space in the File Explorer window and choose **New** > **Folder**.
 4. Name it *src*.
-5. Open the browser and type in the address bar the the following URL: +++https://github.com/microsoft/MCAPSTechConnect2024-lab214/archive/refs/heads/main.zip+++
+5. Open the browser and type in the address bar the the following URL: +++https://github.com/microsoft/MCAPSTechConnect25-lab-214/archive/refs/heads/main.zip+++
 6. Download the ZIP file to your computer and extract in the *C:\src* folder you have just created.
 
 The next step is to run a PowerShell script, which is going to deploy on your Azure subscription the two resources which are needed to run the lab:
@@ -24,7 +24,7 @@ The next step is to run a PowerShell script, which is going to deploy on your Az
 
 To run the script, perform the following steps:
 
-1. Open the folder *C:\src\MCAPSTechConnect2024-lab214-main\scripts*.
+1. Open the folder *C:\src\MCAPSTechConnect25-lab-214\scripts*.
 2. Right click on the **DeployAzureBot.ps1** file and click **Properties**.
 3. At the bottom of the window, in the **Security** section, check the **Unblock** checkbox and click **OK**.
 
@@ -43,7 +43,7 @@ To run the script, perform the following steps:
     .\DeployAzureBot.ps1
     ```
 
-7. The script will ask you to log in to your Azure subscription. If you're doing this lab at MCAPS Tech Connect, choose **Work or school account**, then use the following credentials when asked:
+7. The script will ask you to log in to your Azure subscription. If you're doing this lab at MCAPS Tech Connect, we're providing an Azure subscription for you. Choose **Work or school account**, then use the following credentials when asked:
 
     - Username: +++@lab.CloudPortalCredential(User1).Username+++
     - Password: +++@lab.CloudPortalCredential(User1).Password+++

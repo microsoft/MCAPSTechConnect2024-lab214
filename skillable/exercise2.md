@@ -8,8 +8,8 @@ In this exercise, you will add Generative AI capabilities to your agent using  S
 
 In this exercise, you're going to build a travel agent that can help users plan their trips. The user will provide the agent with information about their preferences, and the agent will:
 
-1) Return a list of possible places, taken from a fixed list of destinations offered by the travel agency.
-2) Include the current weather forecast for each destination.
+1. Return a list of possible places, taken from a fixed list of destinations offered by the travel agency.
+2. Include the current weather forecast for each destination.
 
 Let's start!
 
@@ -39,10 +39,10 @@ Let's take a tour of the starting project. It's very similar to the Echo Agent w
 
     These are the information that are needed by Semantic Kernel to access to your Azure OpenAI instance. Since we're already here, let's fill them with the credentials that were returned by the script we launched in the **Prerequisites** section of this lab.
 
-    >[!Note] If you can't find them, remember that a copy has been saved into the **Credentials.txt** file on the desktop
+    > [!Note] If you can't find them, remember that a copy has been saved into the **Credentials.txt** file on the desktop
+
     > [!Alert] Storing credentials in plain in a configuration file isn't a good practice. In a real-world scenario, you should use Azure Key Vault to store them securely or switch to [Azure Managed Identity](https://learn.microsoft.com/entra/identity/managed-identities-azure-resources/overview) to authenticate with the Azure OpenAI APIs. In the testing phase, you can use the [Secret Manager tool](https://learn.microsoft.com/aspnet/core/security/app-secrets?view=aspnetcore-9.0&tabs=windows#secret-manager) provided by Visual Studio to store them securely. 
 
-    ```json
 
 5. The third difference is in the `Program.cs` file, which initializes the Web API. Compared to the one we have seen in Exercise 1, there are two changes:
 
@@ -303,7 +303,7 @@ Now that we have implemented the plugins, we need to register them into the agen
     """;
     ```
 
-    This way, the agent knows that it can use some tools to retrieve the information it needs to perform its tasks. We have added also a bit of information that explain how to use them. For example, the weather plugin requires the latitude and the longitude of the location for which we want the current temperature, so the LLM must retrieve them first.
+   We have added a bit of information that explain how to use the tools we created. For example, the weather plugin requires the latitude and the longitude of the location for which we want the current temperature, so the LLM must retrieve them first.
 
 Now let's test the agent again.
 
@@ -335,3 +335,6 @@ You can just also put a breakpoint at the beginning of the `GetDestinations()` a
 >
 > - The `GetDestinations()` method accepts in input a list of tags that describe the type of trip the user is trying to organize. However, the user didn't provide any tag in the prompt. The LLM has automatically generated the tags based on the prompt, which is why the agent has returned only destinations that are related to art and history.
 > - The `GetTemperature()` method requires the latitude and the longitude of the location for which we want the current temperature. However, these coordinates aren't stored in the list of destinations. The LLM has automatically generated them, which is why the agent has returned the current temperature for each of them.
+
+## Conclusion
+Great job! You have now concluded the lab and you're ready to start building agents to tackle your business processes!

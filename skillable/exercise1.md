@@ -1,6 +1,6 @@
 # Exercise 1: Create a basic agent using the Microsoft 365 Agents SDK
 
-In this exercise, you're going to implement a basic agent using the Microsoft 365 Agents SDK. The agent will be able to receive messages from a user and respond with the same message back. Yes, we're talking about an Echo agent :-) 
+In this exercise, you're going to implement a basic agent using the Microsoft 365 Agents SDK. The agent will be able to receive messages from a user and respond with the same message back. Yes, we're talking about an Echo agent 😊.
 
 For the moment, we won't use any Generative AI capability. We will focus on the basic setup of the agent, how you can manage response and how, thanks to the Microsoft 365 Agents SDK and the Azure Bot Service, you can use the same agent in multiple channels.
 
@@ -14,7 +14,7 @@ In this task, we're going to create a new Echo agent using the Microsoft 365 Age
 
 If you take a quick look at the project and you have some experience with web development in ASP.NET, you will realize that this is a standard Web API project:
 
-1. In the `Program.cs` file, we have the initialization of the Web API project, including the controllers which manage the various API endpoints. In we're running the project in development mode, the Web API root will expose a simple endpoint that returns the message **Microsoft Copilot SDK Sample**.
+1. In the `Program.cs` file, we have the initialization of the Web API project, including the controllers which manage the various API endpoints. In we're running the project in development mode, the Web API root will expose a simple endpoint that returns the message **Microsoft 365 Agents SDK Sample**.
 
     ```csharp
     var builder = WebApplication.CreateBuilder(args);
@@ -50,7 +50,7 @@ If you take a quick look at the project and you have some experience with web de
 
     ```
 
-3. The `BotController` class registers only for the `POST` HTTP method. This is because the Microsoft Agents SDK uses the `POST` method to exchange messages between the agent and the user.
+3. The `BotController` class registers only for the `POST` HTTP method. This is because the Microsoft 365 Agents SDK uses the `POST` method to exchange messages between the agent and the user.
 
     ```csharp
     [Route("api/messages")]
@@ -87,7 +87,7 @@ The `MyBot` class inherits from `ActivityHandler`, which is a class provided by 
 - The `OnMessageActivityAsync()` method, which is called every time the agent receives a message from the user.
 - The `OnMembersAddedAsync()` method, which is called when a new user joins the conversation.
 
-As you can notice from the code, the current implementation it's empty. In the next task, we're going to implement some logic.
+As you can notice from the code, the current implementation is empty. In the next task, we're going to implement some logic.
 
 # Task 2: Implement the Echo agent
 As first step, we're going to implement the `OnMessageActivityAsync()` method to respond to the user with the same message that the user sent.
@@ -140,7 +140,7 @@ After you have trusted the certificate, two things will happen:
 
 The simplest way to test the agent is to use the [Bot Framework Emulator](https://github.com/microsoft/BotFramework-Emulator), an open-source tool from Microsoft that you can use to test agents created wth the Microsoft 365 Agents SDK without the need to deploy them to a real channel, which would require a bit of a setup (like the deployment of resources in Azure).
 
-If you're doing this lab at MCAPS Tech Connect, the Bot Framework Emulator is already installed on the environment.
+If you're doing this lab at MCAPS Tech Connect, the Bot Framework Emulator is already installed in the environment.
 
 1. Press the Start icon in the Windows taskbar
 2. Look for the Bot Framework Emulator icon and click on it to open it.
@@ -154,7 +154,7 @@ If you're doing this lab at MCAPS Tech Connect, the Bot Framework Emulator is al
     http://localhost:56026/api/messages
     ```
 
-    [!Alert](Make sure to use the HTTP URL of the local Web API and not the HTTPS one)
+    >[!Alert] Make sure to use the HTTP URL of the local Web API and not the HTTPS one
 
 
     ![Open an agent in the Bot Framework Emulator](media/exercise1/2.open-bot.png)
@@ -196,7 +196,7 @@ As the first step, let's create the Dev Tunnel:
 
 5. After you have logged in, make sure to set the following options:
 
-    - **Name**: this is a free text, choose something meaningful like +++ MCAPS-M365AgentsSDK +++.
+    - **Name**: this is a free text, choose something meaningful like +++MCAPS-M365AgentsSDK+++.
     - **Tunnel Type**: choose **Temporary**.
     - **Access**: choose **Public**.
 
@@ -209,7 +209,7 @@ As the first step, let's create the Dev Tunnel:
 
     ![The Dev Tunnel up & running](media/exercise1/7.dev-tunnel-url.png)
 
-9.  Click on **Continue** in the page. You should see the familiar **Microsoft Copilot SDK Sample** message.
+9.  Click on **Continue** in the page. You should see the familiar **Microsoft 365 Agents SDK Sample** message.
 10. The agent is now up & running, but exposed through the public URL that was generated by the Dev Tunnel and that you can see in the address bar. Make sure to take note of the URL.
 
 The next step is to configure the Azure Bot Service to use this URL, so that it knows where to dispatch the communications with the agent. We don't need to manually create the Azure Bot Service, since the script we have used in the **Prerequisites** section has already done it for us. Follow these steps:
@@ -297,6 +297,8 @@ The next step is to configure the authentication: we need to supply to the agent
     }
     }
     ```
+
+    > [!Alert] Storing credentials in plain in a configuration file isn't a good practice. In a real-world scenario, you should use Azure Key Vault to store them securely or switch to [Azure Managed Identity](https://learn.microsoft.com/entra/identity/managed-identities-azure-resources/overview) to authenticate with the Azure OpenAI APIs. In the testing phase, you can use the [Secret Manager tool](https://learn.microsoft.com/aspnet/core/security/app-secrets?view=aspnetcore-9.0&tabs=windows#secret-manager) provided by Visual Studio to store them securely. 
 
 Before moving on to the next step, make sure to stop and relaunch the debugging experience, so that the agent can pick up the new configuration.
 
