@@ -17,7 +17,7 @@ Let's start!
 Let's take a tour of the starting project. It's very similar to the Echo Agent we built in Exercise 1 but, as you're going to see, there a few important differences.
 
 1. Open the `c:\src\MCAPSTechConnect25-lab-214\lab\exercise2\1.start` folder in File Explorer.
-2. Double click on the `TravelAgent.sln` file to open the project in Visual Studio.
+2. Double click on the `TravelAgency.sln` file to open the project in Visual Studio.
 3. The first difference is in the configuration of the project. If you double click on the **TravelAgent** project in Solution Explorer, you'll see that, on top of the Microsoft 365 Agents SDK packages that we used in the Echo Agent, we have a new set of packages for Semantic Kernel:
 
     ```xml
@@ -67,7 +67,7 @@ Let's now implement the logic of our agent!
 ## Task 2: Implement the agent
 Let's create our agent now! 
 
-1. Right click on the **Agents** folder and choose **Add -> Class**.
+1. Create a new folder **Agents** under the **TravelAgency** project. Right click on the **Agents** folder and choose **Add -> Class**.
 2. Name the class `TravelAgent` and click **Add**.
 3. As the first step, let's define the name and the instructions of the agent inside two properties. Add the following code inside the class:
 
@@ -286,7 +286,7 @@ Now that we have implemented the plugins, we need to register them into the agen
 3. Now we need to register the plugins into the kernel of the agent. We do this by using the `ImportPluginFromType<T>()` method. Copy and paste the following code after the initialization of the agent:
 
     ```csharp
-    this._agent.Kernel.ImportPluginFromType<DestinationPlugin>();
+    this._agent.Kernel.ImportPluginFromType<DestinationsPlugin>();
     this._agent.Kernel.ImportPluginFromType<WeatherPlugin>();
     ```
 
