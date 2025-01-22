@@ -150,11 +150,11 @@ If you're doing this lab at MCAPS Tech Connect, the Bot Framework Emulator is al
 
 4. You will see different options to connect to your agent. The only important one, for the moment, is the **Bot URL**. Copy and paste the following URL:
 
-    ```
+    ```text
     http://localhost:56026/api/messages
     ```
 
-    >[!Alert] Make sure to use the HTTP URL of the local Web API and not the HTTPS one
+    > [!Alert] Make sure to use the HTTP URL of the local Web API and not the HTTPS one
 
 
     ![Open an agent in the Bot Framework Emulator](media/exercise1/2.open-bot.png)
@@ -259,42 +259,42 @@ The next step is to configure the authentication: we need to supply to the agent
 
     ```json
     {
-    "TokenValidation": {
-        "Audience": [
-            "8629934e-ffb7-4a0b-8622-e26ccbf2bdbb" // this is the Client ID used for the Azure Bot
-        ]
-    },
-    
-    "Connections": {
-        "BotServiceConnection": {
-        "Assembly": "Microsoft.Agents.Authentication.Msal",
-        "Type": "MsalAuth",
-            "Settings": {
-                "AuthType": "ClientSecret", // this is the AuthType for the connection, valid values can be found in Microsoft.Agents.Authentication.Msal.Model.AuthTypes.  The default is ClientSecret.
-                "AuthorityEndpoint": "https://login.microsoftonline.com/4cfe372a-37a4-44f8-91b2-5faf34253c62",
-                "ClientId": "8629934e-ffb7-4a0b-8622-e26ccbf2bdbb", // this is the Client ID used for the connection.
-                "ClientSecret": "<client-secret>", // this is the Client Secret used for the connection.
-                "Scopes": [
-                    "https://api.botframework.com/.default"
-                ]
+        "TokenValidation": {
+            "Audience": [
+                "8629934e-ffb7-4a0b-8622-e26ccbf2bdbb" // this is the Client ID used for the Azure Bot
+            ]
+        },
+        
+        "Connections": {
+            "BotServiceConnection": {
+            "Assembly": "Microsoft.Agents.Authentication.Msal",
+            "Type": "MsalAuth",
+                "Settings": {
+                    "AuthType": "ClientSecret", // this is the AuthType for the connection, valid values can be found in Microsoft.Agents.Authentication.Msal.Model.AuthTypes.  The default is ClientSecret.
+                    "AuthorityEndpoint": "https://login.microsoftonline.com/4cfe372a-37a4-44f8-91b2-5faf34253c62",
+                    "ClientId": "8629934e-ffb7-4a0b-8622-e26ccbf2bdbb", // this is the Client ID used for the connection.
+                    "ClientSecret": "<client-secret>", // this is the Client Secret used for the connection.
+                    "Scopes": [
+                        "https://api.botframework.com/.default"
+                    ]
+                }
+            }
+        },
+        "ConnectionsMap": [
+            {
+            "ServiceUrl": "*",
+            "Connection": "BotServiceConnection"
+            }
+        ],
+        
+        "Logging": {
+            "LogLevel": {
+            "Default": "Information",
+            "Microsoft.AspNetCore": "Warning",
+            "Microsoft.Copilot": "Warning",
+            "Microsoft.Hosting.Lifetime": "Information"
             }
         }
-    },
-    "ConnectionsMap": [
-        {
-        "ServiceUrl": "*",
-        "Connection": "BotServiceConnection"
-        }
-    ],
-    
-    "Logging": {
-        "LogLevel": {
-        "Default": "Information",
-        "Microsoft.AspNetCore": "Warning",
-        "Microsoft.Copilot": "Warning",
-        "Microsoft.Hosting.Lifetime": "Information"
-        }
-    }
     }
     ```
 
