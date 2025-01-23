@@ -7,7 +7,12 @@ To perform this lab, you will need the following requirements:
 - [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli)
 - [An Azure subscription](https://azure.microsoft.com/)
 
-If you're doing this lab at MCAPS Tech Connect, the environment is already set up for you. 
+If you're doing this lab at MCAPS Tech Connect, the environment is already set up for you.
+Use the following credentials to log into the machine:
+
+- Username: ++@lab.VirtualMachine(Win11-Pro-Base).Username++
+- Password: +++@lab.VirtualMachine(Win11-Pro-Base).Password+++
+
 However, you will need to download the lab files from the GitHub repository first and then provision the required resources on your Azure subscription. Let's start with the first task:
 
 1. Open File Explorer
@@ -57,7 +62,7 @@ To run the script, perform the following steps:
 
     ![The Azure subscription to select](media/prereq/3.pre-select-tenant.png)
 
-10. The script will take a few minutes to complete. Once the execution is completed, you will see a report like the following one:
+10. The script will take a few minutes to complete. At this stage, you can now move to Exercise 1 and start the lab, meanwhile the scripts continues its execution. Once the job is completed, you will see a report like the following one:
 
     ![The output of the PowerShell script](media/prereq/4.script-output.png)
 

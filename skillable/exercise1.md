@@ -215,7 +215,7 @@ As the first step, let's create the Dev Tunnel:
 The next step is to configure the Azure Bot Service to use this URL, so that it knows where to dispatch the communications with the agent. We don't need to manually create the Azure Bot Service, since the script we have used in the **Prerequisites** section has already done it for us. Follow these steps:
 
 1. Open the Edge browser.
-2. Navigate to the Azure portal at [https://portal.azure.com](https://portal.azure.com).
+2. Navigate to the Azure portal at <[https://portal.azure.com](https://portal.azure.com).
 3. When asked to login, use the following credentials:
 
     - Username: +++@lab.CloudPortalCredential(User1).Username+++

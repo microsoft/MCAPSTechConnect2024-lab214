@@ -191,7 +191,7 @@ Now it's time to test the agent.
 
 1. Press F5 to launch the debugging in Visual Studio.
 2. Open the Start menu in Windows and locate the Bot Framework Emulator icon. Launch it.
-3. Click on the **Open Bot** button and enter the following URL +++ http://localhost:5188/api/messages ++++
+3. Click on the **Open Bot** button and enter the following URL +++http://localhost:5188/api/messages+++
 4. Click on the **Connect** button.
 5. Type in the chat the following prompt and observe the response:
 
@@ -309,7 +309,7 @@ Now let's test the agent again.
 
 1. Press F5 to launch the debugging in Visual Studio.
 2. Open the Start menu in Windows and locate the Bot Framework Emulator icon. Launch it.
-3. Click on the **Open Bot** button and enter the following URL +++ http://localhost:5188/api/messages ++++
+3. Click on the **Open Bot** button and enter the following URL +++http://localhost:5188/api/messages++++
 4. Repeat again the same prompt:
 
     ```text
