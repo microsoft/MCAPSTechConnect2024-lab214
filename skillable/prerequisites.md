@@ -13,7 +13,7 @@ Use the following credentials to log into the machine:
 - Username: ++@lab.VirtualMachine(Win11-Pro-Base).Username++
 - Password: +++@lab.VirtualMachine(Win11-Pro-Base).Password+++
 
-However, you will need to download the lab files from the GitHub repository first and then provision the required resources on your Azure subscription. Let's start with the first task:
+You will need to download the lab files from the GitHub repository first and then provision the required resources on your Azure subscription. Let's start with the first task:
 
 1. Open File Explorer
 2. Double click on the C:\ drive.
