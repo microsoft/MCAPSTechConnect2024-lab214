@@ -6,6 +6,7 @@ To perform this lab, you will need the following requirements:
   - Azure development
 - [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli)
 - [An Azure subscription](https://azure.microsoft.com/)
+- [Bot Framework Emulator](https://github.com/microsoft/BotFramework-Emulator). Note that if you're doing this lab at MCAPS Tech Connect, the Bot Framework Emulator is already installed in the environment.
 
 If you're doing this lab at MCAPS Tech Connect, the environment is already set up for you.
 Use the following credentials to log into the machine:
@@ -67,4 +68,3 @@ To run the script, perform the following steps:
     ![The output of the PowerShell script](media/prereq/4.script-output.png)
 
 11. Keep the terminal open. You will need these credentials later in the lab. In case you close the window by mistake, a backup copy of the credentials has been saved on your desktop in a text file named *Credentials.txt*.
-
