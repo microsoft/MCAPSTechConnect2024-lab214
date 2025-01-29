@@ -259,8 +259,8 @@ The next step is to configure the authentication: we need to supply to the agent
 2. Look for the `Settings` section under `Connections -> BotServiceConnection` and make the following changes:
 
     - Under `AuthorityEndpoint`, you will find the following URL: `https://login.microsoftonline.com/{{TenandId}}`. Replace the `{{TenantId}}` placeholder with the value of the `Tenant Id` key from the credentials list.
-    - Under `ClientId`, copy and paste the value of the `App Id` key from the credentials list.
-    - Under `ClientSecret`, copy and paste the value of the `Secret` key from the credentials list.
+    - Under `ClientId`, copy and paste the value of the `Microsoft App Id` key from the credentials list.
+    - For `ClientSecret`, select **Manage Password** right next to the Microsoft App ID in the credentials list. You'll be redirected to Certificates & secrets page. Select **+ New client secret** and select **Add**. Copy and paste the **Value** of the `Secret` key from the client secrets list.
 
     This is how your file should look like (the values are just placeholders, they will be different in your case):
 
@@ -268,7 +268,7 @@ The next step is to configure the authentication: we need to supply to the agent
     {
         "TokenValidation": {
             "Audience": [
-                "8629934e-ffb7-4a0b-8622-e26ccbf2bdbb" // this is the Client ID used for the Azure Bot
+                "<YOUR-MICROSOFT-APP-ID>" // this is the Client ID used for the Azure Bot
             ]
         },
         
@@ -278,9 +278,9 @@ The next step is to configure the authentication: we need to supply to the agent
             "Type": "MsalAuth",
                 "Settings": {
                     "AuthType": "ClientSecret", // this is the AuthType for the connection, valid values can be found in Microsoft.Agents.Authentication.Msal.Model.AuthTypes.  The default is ClientSecret.
-                    "AuthorityEndpoint": "https://login.microsoftonline.com/4cfe372a-37a4-44f8-91b2-5faf34253c62",
-                    "ClientId": "8629934e-ffb7-4a0b-8622-e26ccbf2bdbb", // this is the Client ID used for the connection.
-                    "ClientSecret": "<client-secret>", // this is the Client Secret used for the connection.
+                    "AuthorityEndpoint": "https://login.microsoftonline.com/<YOUR-TENANT-ID>",
+                    "ClientId": "<YOUR-MICROSOFT-APP-ID>", // this is the Client ID used for the connection.
+                    "ClientSecret": "<YOUR-CLIENT-SECRET>", // this is the Client Secret used for the connection.
                     "Scopes": [
                         "https://api.botframework.com/.default"
                     ]
