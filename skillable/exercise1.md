@@ -261,8 +261,8 @@ The next step is to configure the authentication: we need to supply to the agent
 3. Look for the `Settings` section under `Connections -> BotServiceConnection` and make the following changes:
 
     - Under `AuthorityEndpoint`, you will find the following URL: `https://login.microsoftonline.com/{{TenandId}}`. Replace the `{{TenantId}}` placeholder with the value of the `Tenant Id` key from the credentials list.
-    - Under `ClientId`, copy and paste the value of the `Microsoft App Id` key from the credentials list.
-    - For `ClientSecret`, select **Manage Password** right next to the Microsoft App ID in the credentials list. You'll be redirected to Certificates & secrets page. Select **+ New client secret** and select **Add**. Copy and paste the **Value** of the `Secret` key from the client secrets list.
+    - Under `ClientId`, copy and paste the value of the `App Id` key from the credentials list.
+    - For `ClientSecret`, copy and paste the value of the `Secret` key from the credentials list.
 
     This is how your file should look like (the values are just placeholders, they will be different in your case):
 
@@ -307,14 +307,12 @@ The next step is to configure the authentication: we need to supply to the agent
     }
     ```
 
-    > [!Alert] Storing credentials in plain in a configuration file isn't a good practice. In a real-world scenario, you should use Azure Key Vault to store them securely or switch to [Azure Managed Identity](https://learn.microsoft.com/entra/identity/managed-identities-azure-resources/overview) to authenticate with the Azure OpenAI APIs. In the testing phase, you can use the [Secret Manager tool](https://learn.microsoft.com/aspnet/core/security/app-secrets?view=aspnetcore-9.0&tabs=windows#secret-manager) provided by Visual Studio to store them securely. 
-
-Before moving on to the next step, make sure to stop and relaunch the debugging experience, so that the agent can pick up the new configuration.
+    > [!Alert] Storing credentials in plain in a configuration file isn't a good practice. In a real-world scenario, you should use Azure Key Vault to store them securely. During the testing phase, you can use the [Secret Manager tool](https://learn.microsoft.com/aspnet/core/security/app-secrets?view=aspnetcore-9.0&tabs=windows#secret-manager) provided by Visual Studio to store them securely. 
 
 Now that both the local agent and the Azure Bot Service are properly configured, we can test it using one of the available channels supported by the Azure Bot Service. In the interest of time, we're going to use the simplest one: the Web Chat channel.
 
-1. Go back to the Azure portal.
-2. Launch the agent in Visual Studio by pressing F5.
+1. Launch the agent in Visual Studio by pressing F5.
+2. Go back to the Azure portal.
 3. In the Azure Bot Service resource, click on the **Test in Web Chat** button under the **Settings** section.
 4. If you did everything right, you should see the agent behaving like when you tested it in the Bot Framework Emulator:
    - You will see the welcome message **Hello and Welcome!**.
