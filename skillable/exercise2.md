@@ -69,7 +69,7 @@ Let's create our agent now!
 
 1. Create a new folder **Agents** under the **TravelAgency** project. Right click on the **Agents** folder and choose **Add -> Class**.
 2. Name the class `TravelAgent` and click **Add**.
-3. As the first step, let's define the name and the instructions of the agent inside two properties. Add the following code inside the class:
+3. As the first step, let's define the name and the instructions of the agent inside two properties. Add the following code inside the `TravelAgent` class:
 
     ```csharp
     private const string AgentName = "TravelAgent";
@@ -141,13 +141,9 @@ Now that we have implemented the agent, we must register it in the dependency in
 2. Add the following line of code in any place between the `WebApplication.CreateBuilder(args)` and the `builder.Build()` methods:
 
     ```csharp
-    var builder = WebApplication.CreateBuilder(args);
-
     // Add services to the container.
     // code to register the various services and configuration
     builder.Services.AddTransient<TravelAgent>();
-
-    var app = builder.Build();
     ```
 
 Now that we have registered the agent class, we can add it as parameter of the `BasicBot` class constructor, so that it's automatically injected by the dependency injection system.
@@ -163,6 +159,7 @@ Now that we have registered the agent class, we can add it as parameter of the `
         _travelAgent = travelAgent;
     }
     ```
+
 3. Now we can implement the the logic to handle the incoming messages. Open the `BasicBot.cs` file and replace the implementation of the `OnMessageActivityAsync()` method with the following code:
 
     ```csharp
@@ -186,10 +183,10 @@ This code calls the `InvokeAgentAsync()` method of the `TravelAgent` object we h
 Now it's time to test the agent. 
 
 > [!Note] For the sake of simplicity, we will do the testing only using the Bot Framework Emulator, so we won't need to configure the authentication with the Azure Bot Service. In case you want to test the agent with other channels like we did in Exercise 1, make sure to:
-> - Copy inside the `appsettings.json` file the credentials of the app registration on Microsoft Entra that the script has created in the **Prerequisites** section of this lab (app id, tenant id and secret).
+> - Copy inside the `appsettings.json` file the credentials of the app registration on Microsoft Entra that the script has created in the **Prerequisites** section of this lab (app id, tenant id and secret). You can find your credentials by navigating to [Azure Portal](https://portal.azure.com) and selecting your *Resource Group (ResourceGroup1) > Bot Channel Registration > Settings > Configuration*.
 > - Uncomment the `builder.Services.AddBotAspNetAuthentication(builder.Configuration)` line in the `SampleServiceCollectionExtension.cs` file.
 
-1. Press F5 to launch the debugging in Visual Studio.
+1. Select `http` from the debugging menu in Visual Studio and Press F5 to launch the debugging.
 2. Open the Start menu in Windows and locate the Bot Framework Emulator icon. Launch it.
 3. Click on the **Open Bot** button and enter the following URL +++http://localhost:5188/api/messages+++
 4. Click on the **Connect** button.
@@ -234,6 +231,7 @@ Plugins are simply C# classes that expose one or more methods to perform some ta
         .ToList();
 
         return result;
+    }
     ```
 
 To enable Semantic Kernel to automatically invoke the method based on the user's intent, we must describe to the AI model what it does and the meaning of the input parameters. We can do this thanks to the `KernelFunction` and `Description` attributes.
