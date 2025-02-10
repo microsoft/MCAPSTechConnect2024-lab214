@@ -9,12 +9,12 @@ In this task, we're going to create a new Echo agent using the Microsoft 365 Age
 
 1. Open File Explorer in Windows 11
 2. Locate the folder `C:\src\MCAPSTechConnect25-lab-214-main\lab\exercise1\1.start`
-3. Double click on the `EchoBot.sln` file to open the solution in Visual Studio 2022.
+3. Double click on the **EchoBot.sln** file to open the solution in Visual Studio 2022.
 4. Once Visual Studio starts, you will be asked if you want to trust it since it was downloaded from the web. Click on **Trust and Continue**.
 
 If you take a quick look at the project and you have some experience with web development in ASP.NET, you will realize that this is a standard Web API project:
 
-1. In the `Program.cs` file, we have the initialization of the Web API project, including the controllers which manage the various API endpoints. If we're running the project in development mode, the Web API base endpoint will simply return the message **Microsoft 365 Agents SDK Sample**.
+1. In the *Program.cs* file, we have the initialization of the Web API project, including the controllers which manage the various API endpoints. If we're running the project in development mode, the Web API base endpoint will simply return the message **Microsoft 365 Agents SDK Sample**.
 
     ```csharp
     var builder = WebApplication.CreateBuilder(args);
@@ -39,7 +39,7 @@ If you take a quick look at the project and you have some experience with web de
     app.Run();
     ```
 
-2. Inside the **Controller** folder, we have a file called `BotController.cs`, which contains the real API implementation. From the `Route` attribute that decorates the `BotController` class, we can see this code is mapped to the endpoint `/api/messages`.
+2. Inside the **Controller** folder, we have a file called *BotController.cs*, which contains the real API implementation. From the *Route* attribute that decorates the *BotController* class, we can see this code is mapped to the endpoint */api/messages*.
 
     ```csharp
     [Route("api/messages")]
@@ -50,7 +50,7 @@ If you take a quick look at the project and you have some experience with web de
 
     ```
 
-3. The `BotController` class registers only for the `POST` HTTP method. This is because the Microsoft 365 Agents SDK uses the `POST` method to exchange messages between the agent and the user.
+3. The *BotController* class registers only for the *POST* HTTP method. This is because the Microsoft 365 Agents SDK uses the *POST* method to exchange messages between the agent and the user.
 
     ```csharp
     [Route("api/messages")]
@@ -65,7 +65,7 @@ If you take a quick look at the project and you have some experience with web de
 
 As you can notice, the implementation of the method is very lightweight. This is because the Microsoft 365 Agents SDK abstracts the complexity of the communication between the agent and the user. You won't need to manually manage the HTTP requests and responses, the SDK will do it for you by exposing a simple interface to manage the conversation. 
 
-In our starting project, the `MyBot` class is the one that manages the conversation. Let's take a look at it:
+In our starting project, the *MyBot* class is the one that manages the conversation. Let's take a look at it:
 
 ```csharp
 public class MyBot : ActivityHandler
@@ -82,16 +82,16 @@ public class MyBot : ActivityHandler
 }
 ```
 
-The `MyBot` class inherits from `ActivityHandler`, which is a class provided by the Microsoft 365 Agents SDK. This class contains a set of methods that you can override to manage the conversation. In our case, we're going to override two methods offered by this class:
+The *MyBot* class inherits from *ActivityHandler*, which is a class provided by the Microsoft 365 Agents SDK. This class contains a set of methods that you can override to manage the conversation. In our case, we're going to override two methods offered by this class:
 
-- The `OnMessageActivityAsync()` method, which is called every time the agent receives a message from the user.
-- The `OnMembersAddedAsync()` method, which is called when a new user joins the conversation.
+- The *OnMessageActivityAsync()* method, which is called every time the agent receives a message from the user.
+- The *OnMembersAddedAsync()* method, which is called when a new user joins the conversation.
 
 As you can notice from the code, the current implementation is empty. In the next task, we're going to implement some logic.
 
 # Task 2: Implement the Echo agent
-As first step, we're going to implement the `OnMessageActivityAsync()` method to respond to the user with the same message that the user sent.
-Copy and paste the following code inside the `OnMessageActivityAsync()` method:
+As first step, we're going to implement the *OnMessageActivityAsync()* method to respond to the user with the same message that the user sent.
+Copy and paste the following code inside the *OnMessageActivityAsync()* method:
 
 ```csharp
 // Create a new Activity from the message the user provided and modify the text to echo back.
@@ -101,13 +101,13 @@ IActivity message = MessageFactory.Text($"Echo: {turnContext.Activity.Text}");
 await turnContext.SendActivityAsync(message, cancellationToken);
 ```
 
-In the first line of code, we're going to compose the message we want to send back to the user. The Microsoft 365 Agents SDK supports multiple type of responses. In this case, we're going to use the simplest one, which is text, by using the `MessageFactory.Text()` method.
-You might have noticed that the `OnMessageActivityAsync()` method receives in input a `turnContext` object. This object contains all the information about the current conversation, including the message that the user sent. We can access the message by using the `Activity` property of the `turnContext` object.
-As parameter of the `MessageFactory.Text()` method, we're simply taking the message sent by the user and adding the prefix `Echo:` to it. 
+In the first line of code, we're going to compose the message we want to send back to the user. The Microsoft 365 Agents SDK supports multiple type of responses. In this case, we're going to use the simplest one, which is text, by using the *MessageFactory.Text()* method.
+You might have noticed that the *OnMessageActivityAsync()* method receives in input a *turnContext* object. This object contains all the information about the current conversation, including the message that the user sent. We can access the message by using the *Activity* property of the *turnContext* object.
+As parameter of the *MessageFactory.Text()* method, we're simply taking the message sent by the user and adding the prefix *Echo:* to it. 
 
-In the second line of code, we're going to send the message back to the user. We can do this by using the `SendActivityAsync()` method of the `turnContext` object. This method takes in input the message we want to send and a `CancellationToken` object. We can reuse the one we receive in input from the method.
+In the second line of code, we're going to send the message back to the user. We can do this by using the *SendActivityAsync()* method of the *turnContext* object. This method takes in input the message we want to send and a *CancellationToken* object. We can reuse the one we receive in input from the method.
 
-Now let's implement the `OnMembersAddedAsync()` method as well. We're going to send a welcome message to the user when they start a conversation with our agent. Copy and paste the following code insie the `OnMembersAddedAsync()` method:
+Now let's implement the *OnMembersAddedAsync()* method as well. We're going to send a welcome message to the user when they start a conversation with our agent. Copy and paste the following code insie the *OnMembersAddedAsync()* method:
 
 ```csharp
 // When someone (or something) connects to the bot, a MembersAdded activity is received.
@@ -119,7 +119,7 @@ IActivity message = MessageFactory.Text("Hello and Welcome!");
 await turnContext.SendActivityAsync(message, cancellationToken);
 ```
 
-The implementation is the same we have seen for the `OnMessageActivityAsync()` method. We're going to create a new message using the `MessageFactory.Text()` method and send it back to the user using the `SendActivityAsync()` method. The only difference is that, in this case, we're going to send a fixed message to the user.
+The implementation is the same we have seen for the *OnMessageActivityAsync()* method. We're going to create a new message using the *MessageFactory.Text()* method and send it back to the user using the *SendActivityAsync()* method. The only difference is that, in this case, we're going to send a fixed message to the user.
 
 # Task 3: Test the agent with the Bot Framework Emulator
 As the first step, you must run the agent. As such, press F5 in Visual Studio to start the project.
@@ -136,7 +136,7 @@ The first time you will run the project, you will be asked to trust the IIS Expr
 After you have trusted the certificate, two things will happen:
 
 1. A terminal window will open, showing the logs of the Web API project.
-2. Microsoft Edge will open directly on the Web API URL, which is `https://localhost:56025`. However, being an API, you won't see a traditional web page, just the message **Microsoft Copilot SDK Sample**.
+2. Microsoft Edge will open directly on the Web API URL, which is *https://localhost:56025*. However, being an API, you won't see a traditional web page, just the message **Microsoft Copilot SDK Sample**.
 
 The simplest way to test the agent is to use the [Bot Framework Emulator](https://github.com/microsoft/BotFramework-Emulator), an open-source tool from Microsoft that you can use to test agents created wth the Microsoft 365 Agents SDK without the need to deploy them to a real channel, which would require a bit of a setup (like the deployment of resources in Azure).
 
@@ -166,9 +166,9 @@ If you're doing this lab at MCAPS Tech Connect, the Bot Framework Emulator is al
     Hello and Welcome!
     ```
 
-    This is the welcome message we implemented in the `OnMembersAddedAsync()` method.
+    This is the welcome message we implemented in the *OnMembersAddedAsync()* method.
 
-7. Type a message in the chat and press Enter. You should see the same message you typed, prefixed by `Echo:`.
+7. Type a message in the chat and press Enter. You should see the same message you typed, prefixed by *Echo:*.
 
     ![The Echo Agent responding to the user](media/exercise1/3.echo-agent.message.png)
 
@@ -237,16 +237,16 @@ The next step is to configure the Azure Bot Service to use this URL, so that it 
 
 8. Click on the one with **Bot Channel Registration** as type.
 9. In the left menu, expand the **Settings** section and click on **Configuration**.
-10. Under the **Messaging endpoint** field, copy and paste the Dev Tunnel URL you have previously noted. Make sure to append `/api/messages` at the end of the URL. For example, if the Dev Tunnel URL is `https://pm5j7rdn-56025.use2.devtunnels.ms`, the final URL you must add in the field will be `https://pm5j7rdn-56025.use2.devtunnels.ms/api/messages`.
+10. Under the **Messaging endpoint** field, copy and paste the Dev Tunnel URL you have previously noted. Make sure to append */api/messages* at the end of the URL. For example, if the Dev Tunnel URL is *https://pm5j7rdn-56025.use2.devtunnels.ms*, the final URL you must add in the field will be *https://pm5j7rdn-56025.use2.devtunnels.ms/api/messages*.
     
     ![The Azure Bot Service configuration](media/exercise1/9.messaging-endpoint.png)
 
 11. Click on **Apply** at the bottom of the page. (You may need to Clean up Application Insights API key field before **Apply** is able to be clicked) 
 
-The Azure Bot Service communication is authenticated through a dedicated app registration on Microsoft Entra, which was automatically created as well by the script in the **Prerequisites** section. This means, however, that our agent, in order to properly work when it's used with the Azure Bot Service, needs to authenticate itself with the app registration. To do this, we need to make a few changes in our project in Visual Studio. The project already contains a file called `AspNetExtensions.cs`, which uses the ASP.NET Authentication library to manage the authentication with Microsoft Entra. However, it's currently disabled, so we need to enable it.
+The Azure Bot Service communication is authenticated through a dedicated app registration on Microsoft Entra, which was automatically created as well by the script in the **Prerequisites** section. This means, however, that our agent, in order to properly work when it's used with the Azure Bot Service, needs to authenticate itself with the app registration. To do this, we need to make a few changes in our project in Visual Studio. The project already contains a file called *AspNetExtensions.cs*, which uses the ASP.NET Authentication library to manage the authentication with Microsoft Entra. However, it's currently disabled, so we need to enable it.
 
 1. If the debug is still running, stop it.
-2. Go back to Visual Studio and locate, inside Solution Explorer, the `SampleServiceCollectionExtensions.cs` file.
+2. Go back to Visual Studio and locate, inside Solution Explorer, the *SampleServiceCollectionExtensions.cs* file.
 3. You will find the following line commented:
 
     ```csharp
@@ -254,15 +254,15 @@ The Azure Bot Service communication is authenticated through a dedicated app reg
     ```
 4. Uncomment the line by removing the `//` at the beginning.
 
-The next step is to configure the authentication: we need to supply to the agent the credentials to authenticate to our app registration. We do this in the `appssettings.json` file. Do you remember the list of credentials that was generated by the script a that we copied at the end of the **Prerequisites** section? We're going to use them now.
+The next step is to configure the authentication: we need to supply to the agent the credentials to authenticate to our app registration. We do this in the *appssettings.json* file. Do you remember the list of credentials that was generated by the script a that we copied at the end of the **Prerequisites** section? We're going to use them now.
 
-1. Double click on the `appsettings.json` file in Solution Explorer.
-2. In the `TokenValidation -> Audience` property, copy and paste the value of the `App Id` key from the credentials list.
-3. Look for the `Settings` section under `Connections -> BotServiceConnection` and make the following changes:
+1. Double click on the *appsettings.json* file in Solution Explorer.
+2. In the *TokenValidation -> Audience* property, copy and paste the value of the `App Id` key from the credentials list.
+3. Look for the *Settings* section under *Connections -> BotServiceConnection* and make the following changes:
 
-    - Under `AuthorityEndpoint`, you will find the following URL: `https://login.microsoftonline.com/{{TenandId}}`. Replace the `{{TenantId}}` placeholder with the value of the `Tenant Id` key from the credentials list.
-    - Under `ClientId`, copy and paste the value of the `App Id` key from the credentials list.
-    - For `ClientSecret`, copy and paste the value of the `Secret` key from the credentials list.
+    - Under *AuthorityEndpoint*, you will find the following URL: *https://login.microsoftonline.com/{{TenandId}}*. Replace the *{{TenantId}}* placeholder with the value of the *Tenant Id* key from the credentials list.
+    - Under *ClientId*, copy and paste the value of the *App Id* key from the credentials list.
+    - For *ClientSecret*, copy and paste the value of the *Secret* key from the credentials list.
 
     This is how your file should look like (the values are just placeholders, they will be different in your case):
 
@@ -316,7 +316,7 @@ Now that both the local agent and the Azure Bot Service are properly configured,
 3. In the Azure Bot Service resource, click on the **Test in Web Chat** button under the **Settings** section.
 4. If you did everything right, you should see the agent behaving like when you tested it in the Bot Framework Emulator:
    - You will see the welcome message **Hello and Welcome!**.
-   - Whenever you type a message, you will see the same message returned by the agent, prefixed by `Echo:`.
+   - Whenever you type a message, you will see the same message returned by the agent, prefixed by *Echo:*.
    
     ![Testing the agent in the Web Chat](media/exercise1/10-web-chat.png)
 
