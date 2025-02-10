@@ -18,7 +18,7 @@ Let's take a tour of the starting project. It's very similar to the Echo Agent w
 
 1. If you're still running the debug experience for the Echo agent, stop it, then close Visual Studio.
 2. Open the `c:\src\MCAPSTechConnect25-lab-214\lab\exercise2\1.start` folder in File Explorer.
-3. Double click on the `TravelAgency.sln` file to open the project in Visual Studio.
+3. Double click on the *TravelAgency.sln* file to open the project in Visual Studio.
 4. The first difference is in the configuration of the project. If you double click on the **TravelAgent** project in Solution Explorer, you'll see that, on top of the Microsoft 365 Agents SDK packages that we used in the Echo Agent, we have a new set of packages for Semantic Kernel:
 
     ```xml
@@ -28,7 +28,7 @@ Let's take a tour of the starting project. It's very similar to the Echo Agent w
     <PackageReference Include="Microsoft.SemanticKernel.Connectors.OpenAI" Version="1.32.0" />
     ```
 
-5. The second difference can be found in the `appsettings.json` file, which includes a new section called `AzureOpenAI` at the end:
+5. The second difference can be found in the *appsettings.json* file, which includes a new section called *AzureOpenAI* at the end:
 
     ```json
     "AzureOpenAI": {
@@ -44,17 +44,17 @@ Let's take a tour of the starting project. It's very similar to the Echo Agent w
 
     > [!Alert] Storing credentials in plain in a configuration file isn't a good practice. In a real-world scenario, you should use Azure Key Vault to store them securely or switch to [Azure Managed Identity](https://learn.microsoft.com/entra/identity/managed-identities-azure-resources/overview) to authenticate with the Azure OpenAI APIs. In the testing phase, you can use the [Secret Manager tool](https://learn.microsoft.com/aspnet/core/security/app-secrets?view=aspnetcore-9.0&tabs=windows#secret-manager) provided by Visual Studio to store them securely. 
 
-6. Copy and paste the value of the key **Azure OpenAI deployment name** into the `DeploymentName` field.
-7. Copy and paste the value of the key **Azure OpenAI Endpoint** into the `Endpoint` field.
-8. Copy and paste the value of the key **Azure OpenAI ApiKey** into the `ApiKey` field.
-9. The third difference is in the `Program.cs` file, which initializes the Web API. Compared to the one we have seen in Exercise 1, there are two changes:
+6. Copy and paste the value of the key **Azure OpenAI deployment name** into the *DeploymentName* field.
+7. Copy and paste the value of the key **Azure OpenAI Endpoint** into the *Endpoint* field.
+8. Copy and paste the value of the key **Azure OpenAI ApiKey** into the *ApiKey* field.
+9. The third difference is in the *Program.cs* file, which initializes the Web API. Compared to the one we have seen in Exercise 1, there are two changes:
 
-    - We initialize Semantic Kernel, by registering the `Kernel` object in the built-in dependency injection system:
+    - We initialize Semantic Kernel, by registering the *Kernel* object in the built-in dependency injection system:
 
         ```csharp
         builder.Services.AddKernel();
         ```
-    - Our agent is going to use the Chat Completion APIs provided by Azure OpenAI. As such, we register this service by providing the credentials we have just added to the `appsettings.json` file:
+    - Our agent is going to use the Chat Completion APIs provided by Azure OpenAI. As such, we register this service by providing the credentials we have just added to the *appsettings.json* file:
 
         ```csharp
         builder.Services.AddAzureOpenAIChatCompletion(
@@ -63,7 +63,7 @@ Let's take a tour of the starting project. It's very similar to the Echo Agent w
         apiKey: builder.Configuration.GetSection("AzureOpenAI").GetValue<string>("ApiKey"));
         ```
 
-That's it. Everything else is the same as the Echo Agent we built in Exercise 1. We have a `BotContoller` class which handles the incoming REST API calls and dispatches them to our `BasicBot` class, which is currently empty however.
+That's it. Everything else is the same as the Echo Agent we built in Exercise 1. We have a *BotContoller* class which handles the incoming REST API calls and dispatches them to our *BasicBot* class, which is currently empty however.
 
 Let's now implement the logic of our agent!
 
@@ -73,7 +73,7 @@ Let's create our agent now!
 1. Right click on the **TravelAgency** solution in Solution Explorer and choose **Add -> New folder**. Name it +++Agents+++. 
 2. Right click on the **Agents** folder you have just created and choose **Add -> Class**.
 3. Name the class +++TravelAgent+++ and click **Add**.
-4. As the first step, let's define the name and the instructions of the agent inside two properties. Add the following code inside the `TravelAgent` class:
+4. As the first step, let's define the name and the instructions of the agent inside two properties. Add the following code inside the *TravelAgent* class:
 
     ```csharp
     private const string AgentName = "TravelAgent";
@@ -86,14 +86,14 @@ Let's create our agent now!
 
     The name is self-explanatory. The instructions are a brief description of the agent's capabilities. It's important to provide clear instructions to the user, so that they know what the agent can do and how to interact with it. In our case, we're explaining that the role of the agent is to suggest places to visit based on the user's preferences. We're also asking the agent to include the current temperature in the response.
     
-5. Agents in Semantic Kernel are represented by the `ChatCompletionAgent` class. Let's create a variable in the class to store a reference to the agent and let's add also a second one to store instead the chat history:
+5. Agents in Semantic Kernel are represented by the *ChatCompletionAgent* class. Let's create a variable in the class to store a reference to the agent and let's add also a second one to store instead the chat history:
 
     ```csharp
     private readonly ChatHistory _chatHistory;
     private readonly ChatCompletionAgent _agent;
     ```
 
-6. Now we have everything we need to initialize the agent with the following code. Copy and paste the following code inside the `TravelAgent` class:
+6. Now we have everything we need to initialize the agent with the following code. Copy and paste the following code inside the *TravelAgent* class:
 
     ```csharp
     public TravelAgent(Kernel kernel)
@@ -111,10 +111,10 @@ Let's create our agent now!
     }
     ```
 
-    The `TravelAgent` class takes as parameter (which is passed through the .NET Dependency Injection system) the `Kernel` object, which is at the core of Semantic Kernel. It takes care of many tasks, like wrapping the API calls to the API services, managing the state of the conversation, supporting the registration of plugins, etc.
-    The `Kernel` object is one of the parameters that we must provide when we initialize the `ChatCompletionAgent` object. The other two parameters are the name and the instructions of the agent, which we have already defined.
+    The *TravelAgent* class takes as parameter (which is passed through the .NET Dependency Injection system) the *Kernel* object, which is at the core of Semantic Kernel. It takes care of many tasks, like wrapping the API calls to the API services, managing the state of the conversation, supporting the registration of plugins, etc.
+    The *Kernel* object is one of the parameters that we must provide when we initialize the *ChatCompletionAgent* object. The other two parameters are the name and the instructions of the agent, which we have already defined.
 
-7. The last step is to implement a method to invoke the execution of the agent, which will be invoked by our `BasicBot` class whenever the user sends a message in the chat. Copy and paste this method into the `TravelAgent` class:
+7. The last step is to implement a method to invoke the execution of the agent, which will be invoked by our *BasicBot* class whenever the user sends a message in the chat. Copy and paste this method into the *TravelAgent* class:
    
     ```csharp
     public async Task<string> InvokeAgentAsync(string input)
@@ -136,13 +136,13 @@ Let's create our agent now!
     This method performs the following tasks:
 
     - It adds to the chat history the message that the user has sent into the chat.
-    - It invokes the agent by calling the `InvokeAsync` method of the `ChatCompletionAgent` object, passing the history so that the agent has the full context of the conversation. This method returns an asynchronous stream of `ChatMessageContent` objects, which represent the messages that the agent sends back to the user.
+    - It invokes the agent by calling the *InvokeAsync* method of the *ChatCompletionAgent* object, passing the history so that the agent has the full context of the conversation. This method returns an asynchronous stream of *ChatMessageContent* objects, which represent the messages that the agent sends back to the user.
     - Return the complete response of the agent to the user.
 
-Now that we have implemented the agent, we must register it in the dependency injection system of the application. Let's do this in the `Program.cs` file.
+Now that we have implemented the agent, we must register it in the dependency injection system of the application. Let's do this in the *Program.cs* file.
 
-1. Double click on the `Program.cs` file in Solution Explorer.
-2. Add the following line of code in any place between the `WebApplication.CreateBuilder(args)` and the `builder.Build()` methods:
+1. Double click on the *Program.cs* file in Solution Explorer.
+2. Add the following line of code in any place between the *WebApplication.CreateBuilder(args)* and the *builder.Build()* methods:
 
     ```csharp
     // Add services to the container.
@@ -150,10 +150,10 @@ Now that we have implemented the agent, we must register it in the dependency in
     builder.Services.AddTransient<TravelAgent>();
     ```
 
-Now that we have registered the agent class, we can add it as parameter of the `BasicBot` class constructor, so that it's automatically injected by the dependency injection system.
+Now that we have registered the agent class, we can add it as parameter of the *BasicBot* class constructor, so that it's automatically injected by the dependency injection system.
 
 1. Open the **BasicBot.cs** file in the Solution Explorer.
-2. Copy and paste the following code inside the `BasicBot` class:
+2. Copy and paste the following code inside the *BasicBot* class:
 
     ```csharp
     private readonly TravelAgent _travelAgent;
@@ -164,7 +164,7 @@ Now that we have registered the agent class, we can add it as parameter of the `
     }
     ```
 
-3. Now we can implement the the logic to handle the incoming messages. Open the `BasicBot.cs` file and replace the implementation of the `OnMessageActivityAsync()` method with the following code:
+3. Now we can implement the the logic to handle the incoming messages. Open the *BasicBot.cs* file and replace the implementation of the *OnMessageActivityAsync()* method with the following code:
 
     ```csharp
     var response = await _travelAgent.InvokeAgentAsync(turnContext.Activity.Text);
@@ -179,15 +179,15 @@ Now that we have registered the agent class, we can add it as parameter of the `
     await turnContext.SendActivityAsync(textResponse, cancellationToken);
     ```
 
-This code calls the `InvokeAgentAsync()` method of the `TravelAgent` object we have just defined, passing the user that the message has typed in the chat (stored in the `turnContext.Activity.Text` property). Then takes the response and wraps it into a `Text` activity, which is sent back to the user.
+This code calls the *InvokeAgentAsync()* method of the *TravelAgent* object we have just defined, passing the user that the message has typed in the chat (stored in the *turnContext.Activity.Text* property). Then takes the response and wraps it into a *Text* activity, which is sent back to the user.
 
 Now it's time to test the agent. 
 
 > [!Note] For the sake of simplicity, we will do the testing only using the Bot Framework Emulator, so we won't need to configure the authentication with the Azure Bot Service. In case you want to test the agent with other channels like we did in Exercise 1, make sure to:
-> - Copy inside the `appsettings.json` file the credentials of the app registration on Microsoft Entra that the script has created in the **Prerequisites** section of this lab (app id, tenant id and secret). You can find your credentials by navigating to [Azure Portal](https://portal.azure.com) and selecting your *Resource Group (ResourceGroup1) > Bot Channel Registration > Settings > Configuration*.
-> - Uncomment the `builder.Services.AddBotAspNetAuthentication(builder.Configuration)` line in the `SampleServiceCollectionExtension.cs` file.
+> - Copy inside the *appsettings.json* file the credentials of the app registration on Microsoft Entra that the script has created in the **Prerequisites** section of this lab (app id, tenant id and secret). You can find your credentials by navigating to [Azure Portal](https://portal.azure.com) and selecting your *Resource Group (ResourceGroup1) > Bot Channel Registration > Settings > Configuration*.
+> - Uncomment the *builder.Services.AddBotAspNetAuthentication(builder.Configuration)* line in the *SampleServiceCollectionExtension.cs* file.
 
-1. Select `http` from the debugging menu in Visual Studio and Press F5 to launch the debugging.
+1. Select *http* from the debugging menu in Visual Studio and Press F5 to launch the debugging.
 2. Open the Start menu in Windows and locate the Bot Framework Emulator icon. Launch it.
 3. Click on the **Open Bot** button and enter the following URL +++http://localhost:5188/api/messages+++
 4. Click on the **Connect** button.
@@ -209,8 +209,8 @@ The way you can provide tools to an agent built with Semantic Kernel is with plu
 Plugins are simply C# classes that expose one or more methods to perform some tasks. Our project already contains two plugins: one to retrieve a list of destinations that the travel agency makes available to their customers and one to retrieve the current temperature of a location. Let's take a look at the first one.
 
 1. Stop the debugging experience in Visual Studio.
-2. Double click on the `DestinationPlugin.cs` file in the `Plugins` folder in Solution Explorer.
-3. The class contains a single method called `GetDestinations()`, which returns a list of destinations given a series of tags passed in input. For the sake of simplicity, the full list of destinations is hardcoded. Every destination is described by a `Location`, a `Country`, a `Description` and `Tags`, which is a collection of string. This is an excerpt of the implementation:
+2. Double click on the *DestinationPlugin.cs* file in the *Plugins* folder in Solution Explorer.
+3. The class contains a single method called *GetDestinations()*, which returns a list of destinations given a series of tags passed in input. For the sake of simplicity, the full list of destinations is hardcoded. Every destination is described by a *Location*, a *Country*, a *Description* and *Tags*, which is a collection of string. This is an excerpt of the implementation:
 
     ```csharp
     public List<Destination> GetDestinations(string[] tags)
@@ -236,9 +236,9 @@ Plugins are simply C# classes that expose one or more methods to perform some ta
     }
     ```
 
-To enable Semantic Kernel to automatically invoke the method based on the user's intent, we must describe to the AI model what it does and the meaning of the input parameters. We can do this thanks to the `KernelFunction` and `Description` attributes.
+To enable Semantic Kernel to automatically invoke the method based on the user's intent, we must describe to the AI model what it does and the meaning of the input parameters. We can do this thanks to the *KernelFunction* and *Description* attributes.
 
-1. Add the following code at line 7, before the definition of the `GetDestinations()` method:
+1. Add the following code at line 7, before the definition of the *GetDestinations()* method:
 
     ```csharp
     [KernelFunction, Description("Get a list of available destinations")]
@@ -252,9 +252,9 @@ To enable Semantic Kernel to automatically invoke the method based on the user's
 
 Let's move now to the second plugin, the weather one.
 
-1. Double click on the `WeatherPlugin.cs` file in the `Plugins` folder in Solution Explorer.
-2. The class contains a single method called `GetTemperatureAsync()` which receives, as input, the latitude and the longitude of the location for which we want the current temperature. The method, in this case, doesn't return a fixed information, but it's using the `HttpClient` class to call a real API offered by the [Open Meteo](https://open-meteo.com/) platform.
-3. As you can notice, also this class is ready to be used, but it lacks the attributes that describe to the LLM the purpose of the method and the meaning of the input parameters. Add the following code at line 7, before the definition of the `GetTemperatureAsync()` method:
+1. Double click on the *WeatherPlugin.cs* file in the *Plugins* folder in Solution Explorer.
+2. The class contains a single method called *GetTemperatureAsync()* which receives, as input, the latitude and the longitude of the location for which we want the current temperature. The method, in this case, doesn't return a fixed information, but it's using the *HttpClient* class to call a real API offered by the [Open Meteo](https://open-meteo.com/) platform.
+3. As you can notice, also this class is ready to be used, but it lacks the attributes that describe to the LLM the purpose of the method and the meaning of the input parameters. Add the following code at line 7, before the definition of the *GetTemperatureAsync()* method:
 
     ```csharp
     [KernelFunction, Description("Get the current weather for a given location")]
@@ -265,9 +265,9 @@ Let's move now to the second plugin, the weather one.
     public async Task<Weather> GetTemperatureAsync([Description("The latitude of the location")]double latitude, [Description("The longitude of the location")]double longitude)
     ```
 
-Now that we have implemented the plugins, we need to register them into the agent. Let's do this in the `TravelAgent` class.
+Now that we have implemented the plugins, we need to register them into the agent. Let's do this in the *TravelAgent* class.
 
-1. Double click again on the `TravelAgent.cs` file in Solution Explorer.
+1. Double click again on the *TravelAgent.cs* file in Solution Explorer.
 2. As the first step, we need to enable the agent to automatically invoke the plugins when needed, by leveraging a feature offered by OpenAI models called [function calling](https://learn.microsoft.com/azure/ai-services/openai/how-to/function-calling). Replace the initialization of the agent with the following code:
 
     ```csharp
@@ -283,14 +283,14 @@ Now that we have implemented the plugins, we need to register them into the agen
             })
         };
     ```
-3. Now we need to register the plugins into the kernel of the agent. We do this by using the `ImportPluginFromType<T>()` method. Copy and paste the following code after the initialization of the agent:
+3. Now we need to register the plugins into the kernel of the agent. We do this by using the *ImportPluginFromType<T>()* method. Copy and paste the following code after the initialization of the agent:
 
     ```csharp
     this._agent.Kernel.ImportPluginFromType<DestinationsPlugin>();
     this._agent.Kernel.ImportPluginFromType<WeatherPlugin>();
     ```
 
-4. As the final step, we must tweak a bit the instructions of our agent, to make sure that it knows how to use the tools. Replace the `AgentInstructions` property with the following code:
+4. As the final step, we must tweak a bit the instructions of our agent, to make sure that it knows how to use the tools. Replace the *AgentInstructions* property with the following code:
 
     ```csharp
     private const string AgentInstructions = """
@@ -322,19 +322,19 @@ This time, you should see a response like the following one:
 
 You can notice that:
 
-- All the destinations in the response are coming from the fixed list defined in the `DestinationPlugin` class.
+- All the destinations in the response are coming from the fixed list defined in the *DestinationPlugin* class.
 - For each destination, we can see the real current temperature.
 
 If you look at the terminal which is opened by Visual Studio and that displays the agent logging, you will see that both functions have been invoked multiple times:
 
 ![The logging shows functions being called by the agent](media/exercise2/3.logging.png)
 
-You can just also put a breakpoint at the beginning of the `GetDestinations()` and `GetWeather()` methods, repeat the previous test and check that they are hit during the execution.
+You can just also put a breakpoint at the beginning of the *GetDestinations()* and *GetWeather()* methods, repeat the previous test and check that they are hit during the execution.
 
 > [!Knowledge] One of the many features that makes Semantic Kernel very powerful is the ability to use the LLM capabilities to automatically understand the intent of the user and generate from the prompt the information required to call the plugins. For example, in our case, you can notice how:
 >
-> - The `GetDestinations()` method accepts in input a list of tags that describe the type of trip the user is trying to organize. However, the user didn't provide any tag in the prompt. The LLM has automatically generated the tags based on the prompt, which is why the agent has returned only destinations that are related to art and history.
-> - The `GetTemperature()` method requires the latitude and the longitude of the location for which we want the current temperature. However, these coordinates aren't stored in the list of destinations. The LLM has automatically generated them, which is why the agent has returned the current temperature for each of them.
+> - The *GetDestinations()* method accepts in input a list of tags that describe the type of trip the user is trying to organize. However, the user didn't provide any tag in the prompt. The LLM has automatically generated the tags based on the prompt, which is why the agent has returned only destinations that are related to art and history.
+> - The *GetTemperature()* method requires the latitude and the longitude of the location for which we want the current temperature. However, these coordinates aren't stored in the list of destinations. The LLM has automatically generated them, which is why the agent has returned the current temperature for each of them.
 
 ## Conclusion
 Great job! You have now concluded the lab and you're ready to start building agents to tackle your business processes!
