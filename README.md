@@ -1,6 +1,13 @@
 # MCAPS Tech Connect 2025 - LAB214: Build agents with the Microsoft 365 Agents SDK
 
 This repository contains source code and instructions used in LAB214 delivered at Microsoft Tech Connect 2025 in Seattle.
+
+To perform the lab, this is the sequence to follow:
+
+- [Introduction](skillable/introduction.md)
+- [Prerequisites](skillable/prerequisites.md)
+- [Exercise 1: Create a basic agent using the Microsoft 365 Agents SDK](skillable/exercise1.md)
+- [Exercise 2: Add Generative AI capabilities to your agent with Semantic Kernel and Azure OpenAI](skillable/exercise2.md)
  
 ## Contributing
 
